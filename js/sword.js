@@ -38,9 +38,11 @@ function swordClass() {
 	}
 	
 	this.hitTest = function(thisEnemy) {
+		
+		
 		if(this.swordLife <= 0) {
 			return false;
-			
+					
 		} else if(direction == "north" && thisEnemy.y <= this.y) {// warrior facing North
 			return thisEnemy.isOverlappingPoint(this.x,this.y);
 			
@@ -67,33 +69,33 @@ function swordClass() {
 		
 		if(direction == "north") {
 			swordWidth = 10;
-			swordLength = 40;
-			swordXLocation = redWarrior.x+10;
+			swordLength = 20;
+			swordXLocation = redWarrior.centerX+5;
 			swordYLocation = redWarrior.y - swordLength;
 		}
 		else if(direction == "south") {
 			swordWidth = 10;
 			swordLength = 40;
-			swordXLocation = redWarrior.x-10;
-			swordYLocation = redWarrior.y;		
+			swordXLocation = redWarrior.centerX-10;
+			swordYLocation = redWarrior.centerY+10;
 		}
 		else if(direction == "west") {
 			swordWidth = 40;
 			swordLength = 10;
-			swordXLocation = redWarrior.x - swordWidth;
-			swordYLocation = redWarrior.y;
+			swordXLocation = redWarrior.x - swordWidth + 10;
+			swordYLocation = redWarrior.centerY;
 		}
 		else if(direction == "east") {
 			swordWidth = 40;
 			swordLength = 10;
-			swordXLocation = redWarrior.x;
-			swordYLocation = redWarrior.y;
+			swordXLocation = redWarrior.x + 20;
+			swordYLocation = redWarrior.centerY;
 		
 		} 
 		
 		if(this.swordLife > 0) {
 			swordAlive = false;
-			colorRect(swordXLocation, swordYLocation, swordWidth, swordLength, "black" )
+			colorRect(swordXLocation, swordYLocation, swordWidth, swordLength, "gray" )
 		}
 	}
 	

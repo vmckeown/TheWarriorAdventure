@@ -4,7 +4,9 @@ var direction = "south";
 function warriorClass() {
 	this.mySword = new swordClass();
 	this.x = 65;
+	this.centerX = 40;
 	this.y = 100;
+	this.centerY = 80;
 	this.head = this.y + 25;
 	this.feet = this.y - 25;
 	this.leftArm = this.x + 25;
@@ -16,11 +18,11 @@ function warriorClass() {
 	this.goldpieces = 0;
 	this.health = 4;
 	
-	this.sx = 50;
+	this.sx = 40;
 	this.sy = 0;
 	this.tickCount = 0;
 	this.frameIndex = 0;
-	this.width = 50;
+	this.width = 40;
 	this.numberOfFrames = 4;
 	this.height = 50;
 	this.ticksPerFrame = 5;
@@ -79,7 +81,7 @@ function warriorClass() {
 	this.move = function() {
 		var nextX = this.x;
 		var nextY = this.y;
-		
+				
 		if(this.keyHeld_WalkNorth) {
 			nextY -= playerMoveSpeed;
 			direction = "north";
@@ -117,16 +119,16 @@ function warriorClass() {
         var walkIntoTileType = TILE_WALL;
 
 		if(direction == "north") {
-			walkIntoTileIndex = getTileTypeAtPixelCoord(nextX,(nextY-25));
+			walkIntoTileIndex = getTileTypeAtPixelCoord(nextX+(this.width/2),nextY);
 		}
 		if(direction == "south") {
-			walkIntoTileIndex = getTileTypeAtPixelCoord(nextX,(nextY+25));
+			walkIntoTileIndex = getTileTypeAtPixelCoord(nextX+(this.width/2),nextY+this.height);
 		}
 		if(direction == "west") {
-			walkIntoTileIndex = getTileTypeAtPixelCoord((nextX-25), nextY);
+			walkIntoTileIndex = getTileTypeAtPixelCoord(nextX, nextY+(this.height/2));
 		}
 		if(direction == "east") {
-			walkIntoTileIndex = getTileTypeAtPixelCoord((nextX+25), nextY);
+			walkIntoTileIndex = getTileTypeAtPixelCoord(nextX+this.width, nextY+(this.height/2));
 		}
 		
 		
@@ -263,8 +265,12 @@ function warriorClass() {
 	}	
 	
 	this.checkMyShipAndShotCollisionAgainst = function(thisEnemy) {
+		
+		this.centerX = this.x + this.width/2;
+		this.centerY = this.y + this.height/2;
 
-		if( thisEnemy.isOverlappingPoint(this.x,this.y) ) {
+
+		if(thisEnemy.isOverlappingPoint(this.centerX,this.centerY)) {
 			if(swordAlive == true) {
 				this.health = (this.health)- 1; // Damage to Health
 			}
@@ -299,10 +305,14 @@ function warriorClass() {
 			
 			this.sx = this.frameIndex * this.width;
 			this.mySword.draw();
-			canvasContext.drawImage(this.myWarriorPic, this.sx, this.sy, 50, this.height, (this.x-(this.height/2)), (this.y - (this.width/2)), 50, this.height); 
-
-			colorRect(this.x,this.y, 5,5, "red") 
+			//canvasContext.drawImage(this.myWarriorPic, this.sx, this.sy, 50, this.height, (this.x-(this.height/2)), (this.y - (this.width/2)), 50, this.height); 
+			canvasContext.drawImage(this.myWarriorPic, this.sx, this.sy, this.width, this.height, this.x, this.y, this.width, this.height);
+			colorRect(this.x,this.y, 5,5, "white") 
+			colorRect(this.x,this.y+this.height, 5,5, "white")
+			colorRect(this.x+this.width,this.y, 5,5, "white")
+			colorRect(this.x+this.width,this.y+this.height, 5,5, "white")
 			
+		colorRect(this.centerX,this.centerY, 5, 5, 'white')
 		}
 	}
 	

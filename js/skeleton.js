@@ -1,17 +1,17 @@
 var skeletonMoveSpeed = 0.5;
 const SKELETON_TIME_BETWEEN_CHANGE_DIR = 700;
-const SKELETON_COLLISION_RADIUS = 20;
+const SKELETON_COLLISION_RADIUS = 10;
 
 function skeletonClass() {
 	this.x = 0;
 	this.y = 0;
-	this.speed = 1;
+	this.speed = 2;
 	this.mySkeletonPic = skeletonPic; // which picture to use
 	this.name = "Untitled skeleton";
-	this.health = 2;
+	this.health = 4;
 	this.alive = true;
-	this.biteReady = true;
 	this.biteReadyTicker = 30;
+	this.biteReady = true;
 	
 	this.cyclesTilDirectionChange = 0;
 	this.addedCyclesTilDirectionChange = 0;
@@ -24,14 +24,14 @@ function skeletonClass() {
 	this.sy = 0;
 	this.tickCount = 0;
 	this.frameIndex = 0;
-	this.width = 50;
+	this.width = 35;
 	this.numberOfFrames = 4;
 	this.height = 50;
 	this.ticksPerFrame = 5;
 	this.skeletonMove = true;
 	this.walkNorth = false;
-	this.walkEast = false;
-	this.walkSouth = true;
+	this.walkEast = true;
+	this.walkSouth = false;
 	this.walkWest = false;
 
 	this.reset = function(whichImage, skeletonName) {
@@ -69,32 +69,6 @@ function skeletonClass() {
 			this.walkWest = true;
 		}	
 	}
-	
-	this.skeletonBite = function() {
-		console.log(this.biteReadyTicker);
-		console.log(this.biteReady);
-		console.log(redWarrior.health);
-		if(this.biteReady == true){
-			redWarrior.health = redWarrior.health -1;	
-			document.getElementById("debugText").innerHTML = "Ouch!  I've been bit by a skeleton.";	
-			this.biteReady = false;
-		}
-		else if(this.biteReady == false) {	
-			this.biteReadyCounter();
-		}
-	}
-	
-	this.biteReadyCounter = function() {
-		if(this.biteReadyTicker > 0){ 
-			this.biteReadyTicker--;
-		} else if(this.biteReadyTicker <= 0){
-			this.biteReadyTicker = 30;
-			this.biteReady = true;
-		}
-	}
-	
-	
-
 	
 	this.move = function() {
 		var nextX = this.x; 
@@ -173,8 +147,8 @@ function skeletonClass() {
 			if(walkIntoTileIndex != undefined) {
 				walkIntoTileType = roomGrid[walkIntoTileIndex];
 			}
-
-			switch(walkIntoTileType) {
+			
+		switch(walkIntoTileType) {
 				case TILE_ROAD:
 					this.x = nextX;
 					this.y = nextY;
@@ -239,54 +213,44 @@ function skeletonClass() {
 		} else {
 			this.x = this.x;
 			this.y = this.y;
+		}		
+	}
+	
+	this.skeletonBite = function() {
+		console.log(this.biteReadyTicker);
+		console.log(this.biteReady);
+		console.log(redWarrior.health);
+		if(this.biteReady == true){
+			redWarrior.health = redWarrior.health -1;	
+			document.getElementById("debugText").innerHTML = "Ouch! I've been bite by a skeleton.";	
+			this.biteReady = false;
 		}
-			
+		else if(this.biteReady == false) {	
+			this.biteReadyCounter();
+		}
+	}
+	
+	this.biteReadyCounter = function() {
+		if(this.biteReadyTicker > 0){ 
+			this.biteReadyTicker--;
+		} else if(this.biteReadyTicker <= 0){
+			this.biteReadyTicker = 30;
+			this.biteReady = true;
+		}
 	}
 
 	this.isOverlappingPoint = function(testX, testY) {  // textX is redWarrior.x and testY is redWarrior.y
-		var deltaX = Math.ceil(Math.abs(testX-this.x));
 		
-		if (deltaX == 0) {
-			deltaX = deltaX +1;
+		//test if redWarrior is inside box of Monster
+		console.log("CenterX: "+redWarrior.centerX);
+		
+		if(this.x < testX && (this.x + this.width) > testX && this.y < testY && (this.y + this.height) > testY){
+			document.getElementById("debugText").innerHTML = "Worked!";
+			this.skeletonBite();
 		}
-		var deltaY = Math.ceil(Math.abs(testY-this.y));
-		if (deltaY == 0) {
-			deltaY = deltaY +1;
-		}
-		var dist = Math.ceil(Math.sqrt( (deltaX*deltaX) + (deltaY*deltaY)));
 		
-		var testDirection = this.skeletonDirection;
+		// add result if true
 		
-		colorRect(testX,testY, 10, 10, "blue"); 
-				
-		if (dist <= SKELETON_COLLISION_RADIUS) {
-				
-			if(skeleton.walkNorth || skeleton2.walkNorth) {
-				if(redWarrior.y > this.y) {
-					this.skeletonBite();
-					return (dist <= SKELETON_COLLISION_RADIUS);
-				}
-			}
-			else if(skeleton.walkSouth || skeleton2.walkSouth) {
-				if(redWarrior.y < this.y) {
-					this.skeletonBite();
-					return (dist <= SKELETON_COLLISION_RADIUS);
-				}
-			}
-			else if(skeleton.walkWest || skeleton2.walkWest) {
-				if(redWarrior.x < this.x) {
-					this.skeletonBite();
-					return (dist <= SKELETON_COLLISION_RADIUS);	
-				}
-			}
-			else if(skeleton.walkEast || skeleton2.walkEast) {
-				if(redWarrior.x < this.x) {
-					this.skeletonBite();
-					return (dist <= SKELETON_COLLISION_RADIUS);	
-				}
-			}
-		} // end if Distance within collision radius
-
 	}
 		
 	this.draw = function() { 
@@ -305,11 +269,14 @@ function skeletonClass() {
 		}	
 		if(this.health > 0){
 			this.sx = this.frameIndex * this.width;
-			canvasContext.drawImage(this.mySkeletonPic, this.sx, this.sy, 50, this.height, (this.x - (this.height/2)), (this.y - (this.width/2)), 50, this.height); 
-			colorRect((this.x - (this.height/4)),(this.y - (this.width/4)), 5 , 5, "brown")
+			canvasContext.drawImage(this.mySkeletonPic, this.sx, this.sy, this.width, this.height, this.x, this.y, this.width, this.height);
+			colorRect(this.x,this.y, 5,5, "red") 
+			colorRect(this.x,this.y+this.height, 5,5, "red")
+			colorRect(this.x+this.width,this.y, 5,5, "red")
+			colorRect(this.x+this.width,this.y+this.height, 5,5, "red")
+		
 		} else {
-
-			colorRect(this.x,this.y, 5, 5, "red") 
+			colorRect((this.x - (this.height/4)),(this.y - (this.width/4)), 10 ,10, "brown")
 		}
 		
 		if (this.health <= 0) {

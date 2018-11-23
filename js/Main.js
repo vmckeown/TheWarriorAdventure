@@ -159,7 +159,7 @@ function drawAll() {
 			canvasContext.save();
 			canvasContext.translate(-camPanX,-camPanY);
 			drawRoom();
-			drawOnlyTilesOnScreen();
+			//drawOnlyTilesOnScreen();
 			redWarrior.draw();
 			bat1.draw();
 			bat2.draw();

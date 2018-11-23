@@ -80,21 +80,7 @@
   }
   
   
-  function drawBricks() {
-    for(var eachCol=0; eachCol<ROOM_COLS; eachCol++) { // in each column...
-      for(var eachRow=0; eachRow<ROOM_ROWS; eachRow++) { // in each row within that col
-      
-        if( isBrickAtTileCoord(eachCol, eachRow) ) {
-          var brickLeftEdgeX = eachCol * TILE_W;
-          var brickTopEdgeY = eachRow * TILE_H;
-          colorRect(brickLeftEdgeX, brickTopEdgeY,
-                   TILE_W - TILE_GAP, TILE_H - TILE_GAP, 'blue' );
-        } // end of isBrickAtTileCoord()
-      } // end of for eachRow
-    } // end of for eachCol
-  } // end of drawBricks()
-
-  function drawOnlyBricksOnScreen() {
+ /* function drawOnlyBricksOnScreen() {
     // what are the top-left most col and row visible on canvas?
     var cameraLeftMostCol = Math.floor(camPanX / TILE_W);
     var cameraTopMostRow = Math.floor(camPanY / TILE_H);
@@ -108,19 +94,6 @@
     // +2 for columns since TILE_W doesn't divide evenly into canvas.width
     var cameraRightMostCol = cameraLeftMostCol + colsThatFitOnScreen + 2;
     var cameraBottomMostRow = cameraTopMostRow + rowsThatFitOnScreen + 1;
-    
-    for(var eachCol=cameraLeftMostCol; eachCol<cameraRightMostCol; eachCol++) {
-      for(var eachRow=cameraTopMostRow; eachRow<cameraBottomMostRow; eachRow++) {
-      
-        if( isBrickAtTileCoord(eachCol, eachRow) ) {
-          var brickLeftEdgeX = eachCol * TILE_W;
-          var brickTopEdgeY = eachRow * TILE_H;
-          colorRect(brickLeftEdgeX, brickTopEdgeY,
-                   TILE_W - TILE_GAP, TILE_H - TILE_GAP, 'blue' );
-        } // end of isBrickAtTileCoord()
-      } // end of for eachRow
-    } // end of for eachCol
-  } // end of drawBricks()
-  
-  function drawEverything() {
-    // drawing black to erase previous frame, doing before .translate() since
+
+  } // end of drawBricks() */
+

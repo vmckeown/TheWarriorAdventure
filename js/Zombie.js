@@ -24,7 +24,7 @@ function zombieClass() {
 	this.sy = 0;
 	this.tickCount = 0;
 	this.frameIndex = 0;
-	this.width = 50;
+	this.width = 25;
 	this.numberOfFrames = 4;
 	this.height = 50;
 	this.ticksPerFrame = 5;
@@ -240,49 +240,17 @@ function zombieClass() {
 	}
 
 	this.isOverlappingPoint = function(testX, testY) {  // textX is redWarrior.x and testY is redWarrior.y
-		var deltaX = Math.ceil(Math.abs(testX-this.x));
 		
-		if (deltaX == 0) {
-			deltaX = deltaX +1;
+		//test if redWarrior is inside box of Monster
+		console.log("CenterX: "+redWarrior.centerX);
+		
+		if(this.x < testX && (this.x + this.width) > testX && this.y < testY && (this.y + this.height) > testY){
+			document.getElementById("debugText").innerHTML = "Worked!";
+			this.zombieBite();
 		}
-		var deltaY = Math.ceil(Math.abs(testY-this.y));
-		if (deltaY == 0) {
-			deltaY = deltaY +1;
-		}
-		var dist = Math.ceil(Math.sqrt( (deltaX*deltaX) + (deltaY*deltaY)));
 		
-		var testDirection = this.zombieDirection;
+		// add result if true
 		
-		colorRect(testX,testY, 10, 10, "blue"); 
-				
-		if (dist <= SKELETON_COLLISION_RADIUS) {
-				
-			if(zombie.walkNorth || zombie2.walkNorth) {
-				if(redWarrior.y > this.y) {
-					this.zombieBite();
-					return (dist <= SKELETON_COLLISION_RADIUS);
-				}
-			}
-			else if(zombie.walkSouth || zombie2.walkSouth) {
-				if(redWarrior.y < this.y) {
-					this.zombieBite();
-					return (dist <= SKELETON_COLLISION_RADIUS);
-				}
-			}
-			else if(zombie.walkWest || zombie2.walkWest) {
-				if(redWarrior.x < this.x) {
-					this.zombieBite();
-					return (dist <= SKELETON_COLLISION_RADIUS);	
-				}
-			}
-			else if(zombie.walkEast || zombie2.walkEast) {
-				if(redWarrior.x < this.x) {
-					this.zombieBite();
-					return (dist <= SKELETON_COLLISION_RADIUS);	
-				}
-			}
-		} // end if Distance within collision radius
-
 	}
 		
 	this.draw = function() { 
@@ -301,7 +269,12 @@ function zombieClass() {
 		}	
 		if(this.health > 0){
 			this.sx = this.frameIndex * this.width;
-			canvasContext.drawImage(this.myZombiePic, this.sx, this.sy, 50, this.height, (this.x - (this.height/2)), (this.y - (this.width/2)), 50, this.height); 
+			canvasContext.drawImage(this.myZombiePic, this.sx, this.sy, this.width, this.height, this.x, this.y, this.width, this.height);
+			colorRect(this.x,this.y, 5,5, "red") 
+			colorRect(this.x,this.y+this.height, 5,5, "red")
+			colorRect(this.x+this.width,this.y, 5,5, "red")
+			colorRect(this.x+this.width,this.y+this.height, 5,5, "red")
+		
 		} else {
 			colorRect((this.x - (this.height/4)),(this.y - (this.width/4)), 10 ,10, "brown")
 		}
