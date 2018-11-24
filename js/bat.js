@@ -6,7 +6,7 @@ var batRestingTime = 850;
 batClass.prototype = new movingWrapPositionClass();
 
 
-function batClass() {
+function batClass(batName) {
 	this.x = Math.random()*600;
 	this.y = Math.random()*800;
 	this.xv = 0;
@@ -26,6 +26,7 @@ function batClass() {
 	this.numberOfFrames = 5 || 1;
 	this.health = 2;
 	this.alive = true;
+	this.myName = batName;
 	
 	this.reset = function() {
 		this.myBatPic = batPic;

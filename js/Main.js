@@ -2,12 +2,12 @@
 
 var canvas, canvasContext;
 var redWarrior = new warriorClass();
-var bat1 = new batClass();
-var bat2 = new batClass();
-var skeleton = new skeletonClass();
-var skeleton2 = new skeletonClass();
-var zombie = new zombieClass();
-var zombie2 = new zombieClass();
+var bat1 = new batClass("Bat Carlos");
+var bat2 = new batClass("Bat Anely");
+var skeleton = new skeletonClass("Skeleton Greg");
+var skeleton2 = new skeletonClass("Skeleton Keith");
+var zombie = new zombieClass("Zombie Mike");
+var zombie2 = new zombieClass("Zombie Bob");
 
 // Game State
 
@@ -77,22 +77,22 @@ function moveAll() {
 		zombie.move();
 		zombie2.move();
 		if(bat1.health > 0){
-			redWarrior.checkMyShipAndShotCollisionAgainst(bat1);
+			redWarrior.checkWarriorandSwordCollisionAgainst(bat1);
 		}
 		if(bat2.health > 0){
-			redWarrior.checkMyShipAndShotCollisionAgainst(bat2);
+			redWarrior.checkWarriorandSwordCollisionAgainst(bat2);
 		}
 		if(skeleton.health > 0){
-			redWarrior.checkMyShipAndShotCollisionAgainst(skeleton);
+			redWarrior.checkWarriorandSwordCollisionAgainst(skeleton);
 		}
 		if(skeleton2.health > 0){
-			redWarrior.checkMyShipAndShotCollisionAgainst(skeleton2);
+			redWarrior.checkWarriorandSwordCollisionAgainst(skeleton2);
 		}
 		if(zombie.health > 0){
-			redWarrior.checkMyShipAndShotCollisionAgainst(zombie);
+			redWarrior.checkWarriorandSwordCollisionAgainst(zombie);
 		}
 		if(zombie2.health > 0){
-			redWarrior.checkMyShipAndShotCollisionAgainst(zombie2);
+			redWarrior.checkWarriorandSwordCollisionAgainst(zombie2);
 		}
 		cameraFollow();	
 	};

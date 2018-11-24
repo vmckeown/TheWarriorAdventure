@@ -42,19 +42,53 @@ function swordClass() {
 		
 		if(this.swordLife <= 0) {
 			return false;
-					
-		} else if(direction == "north" && thisEnemy.y <= this.y) {// warrior facing North
-			return thisEnemy.isOverlappingPoint(this.x,this.y);
+		} 
+		
+		if(direction == "north") {// warrior facing North
 			
-		} else if(direction == "south" && thisEnemy.y >= this.y) {// warrior facing South
-			return thisEnemy.isOverlappingPoint(this.x,this.y);
+						
+			if(	this.x+25 > thisEnemy.x &&    // within left side
+				this.x+25 < (thisEnemy.x + thisEnemy.width) && //within right side
+				this.y-20 > thisEnemy.y && // within top side
+				this.y-20 < (thisEnemy.y + thisEnemy.height)) // within bottom 
+					{ //checking top left of sword
+									// Check Sword then Enemy; inside leftSide side , inside rightSide, inside bottom, and inside top. 
+						document.getElementById("debugText").innerHTML = "Successful hit "+ thisEnemy.myName+"!";
+						thisEnemy.health--;
+					}
+		} else if(direction == "south") {// warrior facing South
 			
-		} else if(direction == "west" && thisEnemy.x <= this.x) {// warrior facing West
-			return thisEnemy.isOverlappingPoint(this.x,this.y);
-			
-		} else if(direction == "east" && thisEnemy.x >= this.x) {// warrior facing East
-			return thisEnemy.isOverlappingPoint(this.x,this.y);
-			    
+			if(	this.x + 10 > thisEnemy.x &&    // within left side
+				this.x + 10 < (thisEnemy.x + thisEnemy.width) && //within right side
+				this.y + 70 > thisEnemy.y && // within top side
+				this.y + 70 < (thisEnemy.y + thisEnemy.height)) // within bottom 
+					{ //checking top left of sword
+									// Check Sword then Enemy; inside leftSide side , inside rightSide, inside bottom, and inside top. 
+						document.getElementById("debugText").innerHTML = "Successful hit "+ thisEnemy.myName+"!";
+						thisEnemy.health--;
+					}			
+		} else if(direction == "west") {// warrior facing West
+						
+			if(	this.x -30 > thisEnemy.x &&    // within left side
+				this.x -30 < (thisEnemy.x + thisEnemy.width) && //within right side
+				this.y + 25 > thisEnemy.y && // within top side
+				this.y + 25 < (thisEnemy.y + thisEnemy.height)) // within bottom 
+					{ //checking top left of sword
+									// Check Sword then Enemy; inside leftSide side , inside rightSide, inside bottom, and inside top. 
+						document.getElementById("debugText").innerHTML = "Successful hit "+ thisEnemy.myName+"!";
+						thisEnemy.health--;
+					}			
+		} else if(direction == "east") {// warrior facing East
+						
+			if(	this.x + 60 > thisEnemy.x &&    // within left side
+				this.x + 60 < (thisEnemy.x + thisEnemy.width) && //within right side
+				this.y + 25 > thisEnemy.y && // within top side
+				this.y + 25 < (thisEnemy.y + thisEnemy.height)) // within bottom 
+					{ //checking top left of sword
+									// Check Sword then Enemy; inside leftSide side , inside rightSide, inside bottom, and inside top. 
+						document.getElementById("debugText").innerHTML = "Successful hit "+ thisEnemy.myName+"!";
+						thisEnemy.health--;
+					}			    
  		} else {
 			return false;
 		}
@@ -95,7 +129,7 @@ function swordClass() {
 		
 		if(this.swordLife > 0) {
 			swordAlive = false;
-			colorRect(swordXLocation, swordYLocation, swordWidth, swordLength, "gray" )
+			colorRect(swordXLocation, swordYLocation, swordWidth, swordLength, "gray" );
 		}
 	}
 	

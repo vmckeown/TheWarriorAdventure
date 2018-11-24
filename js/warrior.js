@@ -264,7 +264,7 @@ function warriorClass() {
 		this.mySword.move();
 	}	
 	
-	this.checkMyShipAndShotCollisionAgainst = function(thisEnemy) {
+	this.checkWarriorandSwordCollisionAgainst = function(thisEnemy) {
 		
 		this.centerX = this.x + this.width/2;
 		this.centerY = this.y + this.height/2;
@@ -277,8 +277,6 @@ function warriorClass() {
 		}
 		
 		if( this.mySword.hitTest(thisEnemy) ) {
-			//thisEnemy.
-			//this.myShot.reset();	
 			thisEnemy.health = thisEnemy.health - 1;
 			document.getElementById("debugText").innerHTML = "Enemy Destroyed!";			
 		}
@@ -304,15 +302,15 @@ function warriorClass() {
 		}
 			
 			this.sx = this.frameIndex * this.width;
+				canvasContext.drawImage(this.myWarriorPic, this.sx, this.sy, this.width, this.height, this.x, this.y, this.width, this.height);
+				colorRect(this.x,this.y, 5,5, "white") 
+				colorRect(this.x,this.y+this.height, 5,5, "white")
+				colorRect(this.x+this.width,this.y, 5,5, "white")
+				colorRect(this.x+this.width,this.y+this.height, 5,5, "white")
+				
+				colorRect(this.centerX,this.centerY, 5, 5, 'white')
 			this.mySword.draw();
-			//canvasContext.drawImage(this.myWarriorPic, this.sx, this.sy, 50, this.height, (this.x-(this.height/2)), (this.y - (this.width/2)), 50, this.height); 
-			canvasContext.drawImage(this.myWarriorPic, this.sx, this.sy, this.width, this.height, this.x, this.y, this.width, this.height);
-			colorRect(this.x,this.y, 5,5, "white") 
-			colorRect(this.x,this.y+this.height, 5,5, "white")
-			colorRect(this.x+this.width,this.y, 5,5, "white")
-			colorRect(this.x+this.width,this.y+this.height, 5,5, "white")
-			
-		colorRect(this.centerX,this.centerY, 5, 5, 'white')
+
 		}
 	}
 	

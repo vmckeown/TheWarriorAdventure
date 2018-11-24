@@ -2,16 +2,17 @@ var skeletonMoveSpeed = 0.5;
 const SKELETON_TIME_BETWEEN_CHANGE_DIR = 700;
 const SKELETON_COLLISION_RADIUS = 10;
 
-function skeletonClass() {
+function skeletonClass(skeletonName) {
 	this.x = 0;
 	this.y = 0;
 	this.speed = 2;
 	this.mySkeletonPic = skeletonPic; // which picture to use
-	this.name = "Untitled skeleton";
+	this.myName = "Untitled skeleton";
 	this.health = 4;
 	this.alive = true;
 	this.biteReadyTicker = 30;
 	this.biteReady = true;
+	this.myName = skeletonName;
 	
 	this.cyclesTilDirectionChange = 0;
 	this.addedCyclesTilDirectionChange = 0;
@@ -217,9 +218,7 @@ function skeletonClass() {
 	}
 	
 	this.skeletonBite = function() {
-		console.log(this.biteReadyTicker);
-		console.log(this.biteReady);
-		console.log(redWarrior.health);
+
 		if(this.biteReady == true){
 			redWarrior.health = redWarrior.health -1;	
 			document.getElementById("debugText").innerHTML = "Ouch! I've been bite by a skeleton.";	
@@ -242,15 +241,11 @@ function skeletonClass() {
 	this.isOverlappingPoint = function(testX, testY) {  // textX is redWarrior.x and testY is redWarrior.y
 		
 		//test if redWarrior is inside box of Monster
-		console.log("CenterX: "+redWarrior.centerX);
-		
+				
 		if(this.x < testX && (this.x + this.width) > testX && this.y < testY && (this.y + this.height) > testY){
-			document.getElementById("debugText").innerHTML = "Worked!";
 			this.skeletonBite();
 		}
-		
 		// add result if true
-		
 	}
 		
 	this.draw = function() { 

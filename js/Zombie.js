@@ -2,12 +2,12 @@ var zombieMoveSpeed = 0.5;
 const ZOMBIE_TIME_BETWEEN_CHANGE_DIR = 700;
 const ZOMBIE_COLLISION_RADIUS = 10;
 
-function zombieClass() {
+function zombieClass(zombieName) {
 	this.x = 0;
 	this.y = 0;
 	this.speed = 2;
 	this.myZombiePic = zombiePic; // which picture to use
-	this.name = "Untitled zombie";
+	this.myName = zombieName;
 	this.health = 4;
 	this.alive = true;
 	this.biteReadyTicker = 30;
@@ -48,7 +48,7 @@ function zombieClass() {
 					this.x = eachCol * TILE_W + TILE_W/2;
 					this.y = eachRow * TILE_H + TILE_H/2;
 					return;
-				} // end of Player Start if
+				} // end of Zombie Start if
 			} //end of col row for
 		} // end of row for
 		console.log("No Zombie Start found!");
@@ -217,9 +217,6 @@ function zombieClass() {
 	}
 	
 	this.zombieBite = function() {
-		console.log(this.biteReadyTicker);
-		console.log(this.biteReady);
-		console.log(redWarrior.health);
 		if(this.biteReady == true){
 			redWarrior.health = redWarrior.health -1;	
 			document.getElementById("debugText").innerHTML = "Ouch! I've been bite by a zombie.";	
@@ -234,7 +231,7 @@ function zombieClass() {
 		if(this.biteReadyTicker > 0){ 
 			this.biteReadyTicker--;
 		} else if(this.biteReadyTicker <= 0){
-			this.biteReadyTicker = 30;
+			this.biteReadyTicker = 60; //amount of time between bites
 			this.biteReady = true;
 		}
 	}
@@ -242,10 +239,8 @@ function zombieClass() {
 	this.isOverlappingPoint = function(testX, testY) {  // textX is redWarrior.x and testY is redWarrior.y
 		
 		//test if redWarrior is inside box of Monster
-		console.log("CenterX: "+redWarrior.centerX);
 		
 		if(this.x < testX && (this.x + this.width) > testX && this.y < testY && (this.y + this.height) > testY){
-			document.getElementById("debugText").innerHTML = "Worked!";
 			this.zombieBite();
 		}
 		
