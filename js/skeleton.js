@@ -271,7 +271,7 @@ function skeletonClass(skeletonName) {
 			colorRect(this.x+this.width,this.y+this.height, 5,5, "red")
 		
 		} else {
-			colorRect((this.x - (this.height/4)),(this.y - (this.width/4)), 10 ,10, "brown")
+			canvasContext.drawImage(deadSkeletonPic, this.x,this.y);
 		}
 		
 		if (this.health <= 0) {

@@ -114,7 +114,7 @@ function batClass(batName) {
 			this.sx = this.frameIndex * this.width / this.numberOfFrames;
 			canvasContext.drawImage(this.myBatPic, this.sx, this.sy, 50, this.height, this.x, this.y, 50, this.height);
 		} else {
-			colorRect((this.x - (this.height/2)),(this.y - (this.width/2)), 10 ,10, "brown")
+				canvasContext.drawImage(deadBatPic, this.x,this.y);
 		}
 
 		if (this.alive == true){

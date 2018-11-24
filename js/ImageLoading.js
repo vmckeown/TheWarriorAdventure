@@ -4,11 +4,14 @@ var warriorPic = document.createElement("img");
 var swordPic = document.createElement("img");
 
 var skeletonPic = document.createElement("img");
+var deadSkeletonPic = document.createElement("img");
 
 var zombiePic = document.createElement("img");
+var deadZombiePic = document.createElement("img");
  
 var batPic = document.createElement("img");
-var batPic1 = document.createElement("img");
+var deadBatPic = document.createElement("img");
+
 var worldPics = [];
 
 var picsToLoad = 0;
@@ -66,7 +69,10 @@ function loadImages() {
 			{varName: warriorPic, theFile: "warrior.png"},
 			{varName: swordPic, theFile: "sword.png"},
 			{varName: skeletonPic, theFile: "skeleton.png"},
+			{varName: deadSkeletonPic, theFile: "deadSkeleton.png"},
+			{varName: deadZombiePic, theFile: "deadZombie.png"},
 			{varName: batPic, theFile: "bat.png"},
+			{varName: deadBatPic, theFile: "deadbat.png"},
 			{varName: zombiePic, theFile: "zombie.png"},
 			{varName: titlepagePic, theFile: "background.png"}
 			
