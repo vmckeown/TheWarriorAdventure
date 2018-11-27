@@ -10,9 +10,9 @@ const PLAYER_DIST_FROM_CENTER_BEFORE_CAMERA_PAN_Y = 100;
 
 
 var levelOne =   [04,04,04,04,04,32,18,32,32,18,18,32,32,32,32,32,18,18,20,04,04,04,04,04,04,32,04,04,04,04,04,04,
-				  04,00,05,10,04,18,32,18,18,32,32,18,18,32,32,18,32,18,20,04,22,31,00,24,04,18,04,11,00,00,00,04,
-				  04,00,00,00,04,18,18,18,18,18,18,18,18,18,18,18,18,32,20,04,27,30,28,29,04,18,04,00,00,00,00,04,
-				  04,10,00,00,04,32,18,32,04,04,04,04,04,04,04,04,04,18,20,04,00,00,00,00,04,18,04,00,00,00,00,04,
+				  04,33,05,34,04,18,32,18,18,32,32,18,18,32,32,18,32,18,20,04,33,33,33,33,04,18,04,11,00,00,00,04,
+				  04,00,00,00,04,18,18,18,18,18,18,18,18,18,18,18,18,32,20,04,00,31,00,00,04,18,04,00,00,00,00,04,
+				  04,10,00,00,04,32,18,32,04,04,04,04,04,04,04,04,04,18,20,04,00,30,00,00,04,18,04,00,00,00,00,04,
 				  04,04,04,14,04,18,18,18,04,02,02,02,19,02,02,02,04,18,20,04,04,00,04,04,04,18,04,04,04,14,04,04,
 				  32,18,08,00,18,18,18,18,04,12,00,00,00,00,00,02,04,18,20,18,18,00,18,18,18,18,18,18,18,00,18,32,
 				  32,32,00,18,18,18,18,18,04,02,00,00,00,00,00,02,04,18,20,18,18,00,18,18,18,18,18,18,18,00,32,18,
@@ -147,6 +147,8 @@ const TILE_SHOP_9 = 29;
 const TILE_SHOP_A = 30;
 const TILE_SHOPKEEPER = 31;
 const TILE_TREE = 32;
+const TILE_CABINET = 33;
+const TILE_BED = 34;
 
 function returnTileTypeAtColRow(col, row) {
 	if(col >= 0 && col < ROOM_COLS &&
@@ -196,9 +198,17 @@ function tileTypeHasTransparency(checkTileType) {
 			checkTileType == TILE_SHOP_8 ||
 			checkTileType == TILE_SHOP_9 ||
 			checkTileType == TILE_SHOP_A ||
+			checkTileType == TILE_CABINET ||
+			checkTileType == TILE_BED ||
 			checkTileType == TILE_SHOPKEEPER
 			);
 }
+
+function tileTypeHasGrassTransparency(checkTileType) {
+	return (checkTileType == TILE_TREE 
+			);
+}
+
 
 function drawRoom() {
 
@@ -215,6 +225,9 @@ function drawRoom() {
 
 			if( tileTypeHasTransparency(tileKindHere) ) {
 				canvasContext.drawImage(worldPics[TILE_ROAD], drawTileX, drawTileY);
+			}
+			if( tileTypeHasGrassTransparency(tileKindHere) ) {
+				canvasContext.drawImage(worldPics[TILE_GRASS], drawTileX, drawTileY);
 			}
 			canvasContext.drawImage(useImg, drawTileX, drawTileY);
 			drawTileX += TILE_W;

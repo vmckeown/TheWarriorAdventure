@@ -63,9 +63,11 @@ function loadImages() {
 			{tileType: TILE_SHOP_8,  theFile: "table8.png"},
 			{tileType: TILE_SHOP_9,  theFile: "table9.png"},
 			{tileType: TILE_SHOP_A,  theFile: "tablea.png"},
+			{tileType: TILE_BED,  theFile: "bed.png"},
 			{tileType: TILE_SHOPKEEPER,  theFile: "shopkeeper.png"},
 			{tileType: TILE_TREE,  theFile: "tree.png"},
-
+			{tileType: TILE_CABINET,  theFile: "cabinet.png"},
+	
 			{varName: warriorPic, theFile: "warrior.png"},
 			{varName: swordPic, theFile: "sword.png"},
 			{varName: skeletonPic, theFile: "skeleton.png"},
