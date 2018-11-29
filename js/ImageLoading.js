@@ -13,6 +13,7 @@ var batPic = document.createElement("img");
 var deadBatPic = document.createElement("img");
 
 var goblinPic = document.createElement("img");
+var deadGoblinPic = document.createElement("img");
 
 var worldPics = [];
 
@@ -80,6 +81,7 @@ function loadImages() {
 			{varName: deadBatPic, theFile: "deadbat.png"},
 			{varName: zombiePic, theFile: "zombie.png"},
 			{varName: goblinPic, theFile: "goblin.png"},
+			{varName: deadGoblinPic, theFile: "deadgoblin.png"},
 			{varName: titlepagePic, theFile: "background.png"}
 			
 		];

@@ -97,6 +97,9 @@ function moveAll() {
 		if(zombie2.health > 0){
 			redWarrior.checkWarriorandSwordCollisionAgainst(zombie2);
 		}
+		if(goblin.health > 0){
+			redWarrior.checkWarriorandSwordCollisionAgainst(goblin);
+		}
 
 		cameraFollow();	
 	};

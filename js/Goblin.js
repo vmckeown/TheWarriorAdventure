@@ -20,13 +20,13 @@ function goblinClass(goblinName) {
 	this.goblinResting = false;
 	this.goblinRestingTime = Math.random()*400;
 	
-	this.sx = 0;
+	this.sx = 50;
 	this.sy = 0;
 	this.tickCount = 0;
 	this.frameIndex = 0;
 	this.width = 39;
-	this.numberOfFrames = 0;
-	this.height = 50;
+	this.numberOfFrames = 4;
+	this.height = 37;
 	this.ticksPerFrame = 5;
 	this.goblinMove = true;
 	this.walkNorth = false;
@@ -105,7 +105,7 @@ function goblinClass(goblinName) {
 			if(this.walkNorth) {
 				nextY -= goblinMoveSpeed;
 				this.sx = 0;
-				this.sy = 0;
+				this.sy = 37;
 				goblinDirection = "north";
 			}
 			
@@ -118,13 +118,13 @@ function goblinClass(goblinName) {
 			if(this.walkWest) {
 				nextX -= goblinMoveSpeed;
 				this.sx = 0;
-				this.sy = 0;
+				this.sy = 111;
 				goblinDirection = "west";
 			}
 			if(this.walkEast) {
 				nextX += goblinMoveSpeed;
 				this.sx = 0;
-				this.sy = 0;
+				this.sy = 74;
 				goblinDirection = "east";
 			}
 			
@@ -262,14 +262,14 @@ function goblinClass(goblinName) {
 		}	
 		if(this.health > 0){
 			this.sx = this.frameIndex * this.width;
-			canvasContext.drawImage(this.myGoblinPic, this.x,this.y);
+			canvasContext.drawImage(this.myGoblinPic, this.sx, this.sy, this.width, this.height, this.x, this.y, this.width, this.height);
 			colorRect(this.x,this.y, 5,5, "red") 
 			colorRect(this.x,this.y+this.height, 5,5, "red")
 			colorRect(this.x+this.width,this.y, 5,5, "red")
 			colorRect(this.x+this.width,this.y+this.height, 5,5, "red")
 		
 		} else {   
-			canvasContext.drawImage(this.myGoblinPic, this.x,this.y); 
+			canvasContext.drawImage(deadGoblinPic, this.x,this.y); 
 		}
 		
 		if (this.health <= 0) {
