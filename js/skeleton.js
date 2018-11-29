@@ -1,4 +1,4 @@
-var skeletonMoveSpeed = 0.5;
+var goblinMoveSpeed = 0.5;
 const SKELETON_TIME_BETWEEN_CHANGE_DIR = 700;
 const SKELETON_COLLISION_RADIUS = 10;
 
@@ -104,26 +104,26 @@ function skeletonClass(skeletonName) {
 			// which directional image to use
 
 			if(this.walkNorth) {
-				nextY -= skeletonMoveSpeed;
+				nextY -= goblinMoveSpeed;
 				this.sx = 0;
 				this.sy = 50;
 				skeletonDirection = "north";
 			}
 			
 			if(this.walkSouth) {
-				nextY += skeletonMoveSpeed;
+				nextY += goblinMoveSpeed;
 				this.sx = 0;
 				this.sy = 0;
 				skeletonDirection = "south";
 			}
 			if(this.walkWest) {
-				nextX -= skeletonMoveSpeed;
+				nextX -= goblinMoveSpeed;
 				this.sx = 0;
 				this.sy = 100;
 				skeletonDirection = "west";
 			}
 			if(this.walkEast) {
-				nextX += skeletonMoveSpeed;
+				nextX += goblinMoveSpeed;
 				this.sx = 0;
 				this.sy = 150;
 				skeletonDirection = "east";
@@ -153,12 +153,12 @@ function skeletonClass(skeletonName) {
 				case TILE_ROAD:
 					this.x = nextX;
 					this.y = nextY;
-					skeletonMoveSpeed = 0.5;
+					goblinMoveSpeed = 0.5;
 					break;
 				case TILE_GRASS:
 					this.x = nextX;
 					this.y = nextY;
-					skeletonMoveSpeed = 0.3;
+					goblinMoveSpeed = 0.3;
 					break;
 				case TILE_TREE:
 					this.changeDirection();

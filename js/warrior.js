@@ -239,6 +239,15 @@ function warriorClass() {
 					document.getElementById("debugText").innerHTML = "I need a yellow key to open this treasure chest.";
 				}
 				break;
+			case TILE_GRAVE:
+					document.getElementById("debugText").innerHTML = "Too many good people have died from the Skeleton King and his army of the dead.";
+				break;
+			case TILE_BED:
+					document.getElementById("debugText").innerHTML = "I am not tired.";
+				break;
+			case TILE_CABINET:
+					document.getElementById("debugText").innerHTML = "The bookcase is bare.  One day, I'll have a library of my own.";
+				break;
 			case TILE_SPIKES:
 				var i = 1;
 				this.x = nextX;

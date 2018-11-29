@@ -1,4 +1,4 @@
-// Characters
+// Characters //
 
 var canvas, canvasContext;
 var redWarrior = new warriorClass();
@@ -8,12 +8,13 @@ var skeleton = new skeletonClass("Skeleton Greg");
 var skeleton2 = new skeletonClass("Skeleton Keith");
 var zombie = new zombieClass("Zombie Mike");
 var zombie2 = new zombieClass("Zombie Bob");
+var goblin = new goblinClass("Goblin Vince");
 
-// Game State
+// Game State //
 
 var menuScreen = true;
 
-// Sound
+// Sound //
 
 var doorSound = new SoundOverlapsClass("woodDoorOpen");
 var keySound = new SoundOverlapsClass("keys");
@@ -58,6 +59,7 @@ function loadLevel(whichLevel) {
 	zombie2.reset(zombiePic);
 	bat1.reset(batPic);
 	bat2.reset(batPic);
+	goblin.reset(goblinPic);
 }
 
 function updateAll() {
@@ -76,6 +78,7 @@ function moveAll() {
 		skeleton2.move();
 		zombie.move();
 		zombie2.move();
+		goblin.move();
 		if(bat1.health > 0){
 			redWarrior.checkWarriorandSwordCollisionAgainst(bat1);
 		}
@@ -94,6 +97,7 @@ function moveAll() {
 		if(zombie2.health > 0){
 			redWarrior.checkWarriorandSwordCollisionAgainst(zombie2);
 		}
+
 		cameraFollow();	
 	};
 };
@@ -167,6 +171,7 @@ function drawAll() {
 			skeleton2.draw();
 			zombie.draw();
 			zombie2.draw();
+			goblin.draw();
 			canvasContext.restore();
 			health();
 		}

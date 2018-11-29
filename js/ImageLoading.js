@@ -12,6 +12,8 @@ var deadZombiePic = document.createElement("img");
 var batPic = document.createElement("img");
 var deadBatPic = document.createElement("img");
 
+var goblinPic = document.createElement("img");
+
 var worldPics = [];
 
 var picsToLoad = 0;
@@ -66,6 +68,7 @@ function loadImages() {
 			{tileType: TILE_BED,  theFile: "bed.png"},
 			{tileType: TILE_SHOPKEEPER,  theFile: "shopkeeper.png"},
 			{tileType: TILE_TREE,  theFile: "tree.png"},
+			{tileType: TILE_GRAVE,  theFile: "grave.png"},
 			{tileType: TILE_CABINET,  theFile: "cabinet.png"},
 	
 			{varName: warriorPic, theFile: "warrior.png"},
@@ -76,6 +79,7 @@ function loadImages() {
 			{varName: batPic, theFile: "bat.png"},
 			{varName: deadBatPic, theFile: "deadbat.png"},
 			{varName: zombiePic, theFile: "zombie.png"},
+			{varName: goblinPic, theFile: "goblin.png"},
 			{varName: titlepagePic, theFile: "background.png"}
 			
 		];
