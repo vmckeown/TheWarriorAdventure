@@ -19,7 +19,11 @@ var menuScreen = true;
 var doorSound = new SoundOverlapsClass("woodDoorOpen");
 var keySound = new SoundOverlapsClass("keys");
 var spikeSound = new SoundOverlapsClass("spikes");
+//var skeletonDeathSound = new SoundOverlapsClass("skeletonDeath");
+//var zombieDeathSound = new SoundOverlapsClass("zombieDeath");
+var goblinDeathSound = new SoundOverlapsClass("goblinDeath");
 var backgroundMusic = new BackgroundMusicClass();
+
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
@@ -157,10 +161,10 @@ function drawAll() {
 			colorText("Kill monsters with your sword, and collect gold.", 170, 225, "white");	
 			colorText("Click to start", 170, 255, "white");
 			canvasContext.font="15px Georgia";
-			colorText("Move Left - A", 170, 300, "white");	
-			colorText("Move Down - S", 170, 325, "white");
-			colorText("Move Right - D", 170, 350, "white");
-			colorText("Move Up - W", 170, 375, "white");
+			colorText("Move Left - Left Arrow", 170, 300, "white");	
+			colorText("Move Down - Down Arrow", 170, 325, "white");
+			colorText("Move Right - Right Arrow", 170, 350, "white");
+			colorText("Move Up - Up Arrow", 170, 375, "white");
 			colorText("Sword Attack - Space bar", 170, 400, "white");
 				} else {
 			canvasContext.save();

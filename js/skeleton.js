@@ -194,6 +194,9 @@ function skeletonClass(skeletonName) {
 					this.x = nextX;
 					this.y = nextY;
 					break;
+				case TILE_WATER:
+					this.changeDirection();
+					break	
 				case TILE_WALL:
 					this.changeDirection();
 					break;

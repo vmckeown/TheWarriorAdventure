@@ -282,6 +282,8 @@ function warriorClass() {
 		if(thisEnemy.isOverlappingPoint(this.centerX,this.centerY)) {
 			if(swordAlive == true) {
 				this.health = (this.health)- 1; // Damage to Health
+					goblinDeath.play();
+				
 			}
 		}
 		
@@ -322,6 +324,7 @@ function warriorClass() {
 
 		}
 	}
+
 	
 function instantCamFollow() {
     camPanX = worldGrid - canvas.width/2;

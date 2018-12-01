@@ -1,10 +1,11 @@
 var goblinMoveSpeed = 0.5;
-const GOBLIN_TIME_BETWEEN_CHANGE_DIR = 700;
+const GOBLIN_TIME_BETWEEN_CHANGE_DIR = 300;
+const GOBLIN_PATROL_RADIUS = 200;
 
 function goblinClass(goblinName) {
 	this.x = 0;
 	this.y = 0;
-	this.speed = 2;
+	this.speed = 4;
 	this.myGoblinPic = goblinPic; // which picture to use
 	this.myName = "Untitled goblin";
 	this.health = 4;
@@ -29,9 +30,12 @@ function goblinClass(goblinName) {
 	this.height = 37;
 	this.ticksPerFrame = 5;
 	this.goblinMove = true;
+	this.patrolling = true;
+	this.chasing = false;
+	this.attacking = false;
 	this.walkNorth = false;
-	this.walkEast = true;
-	this.walkSouth = false;
+	this.walkEast = false;
+	this.walkSouth = true;
 	this.walkWest = false;
 
 	this.reset = function(whichImage, goblinName) {
@@ -53,79 +57,141 @@ function goblinClass(goblinName) {
 		} // end of row for
 		console.log("No Goblin Start found!");
 	} // end of goblinRest func
-	
-	this.changeDirection = function() {
-		if(this.walkNorth == true) {
-			this.walkNorth = false;
-			this.walkEast = true;
-		} else if(this.walkWest == true) {
-			this.walkWest = false;
-			this.walkNorth = true;
-		} else if(this.walkEast == true) {
-			this.walkEast = false;
-			this.walkSouth = true;
-		} else if(this.walkSouth == true) {
-			this.walkSouth = false;
-			this.walkWest = true;
-		}	
-	}
-	
+		
 	this.move = function() {
 		var nextX = this.x; 
 		var nextY = this.y;
 		
+		this.changeDirection = function() {
+			if(this.walkNorth) {
+				this.walkNorth = false;
+				this.walkEast = true;	
+			} else if(this.walkWest) {
+				this.walkWest = false;
+				this.walkNorth = true;
+			} else if(this.walkEast) {
+				this.walkEast = false;
+				this.walkSouth = true;
+			} else if(this.walkSouth) {
+				this.walkSouth = false;
+				this.walkWest = true;
+			}		
+		}
+		
 		if(this.health > 0){
+							
+			var deltaX = redWarrior.x - this.x;
+			var deltaY = redWarrior.y - this.y;
+			var dist = Math.sqrt((deltaX*deltaX) + (deltaY*deltaY));
+			var dist = Math.floor(dist);
+			
+			document.getElementById("debugText").innerHTML = "Dist: " + dist;	
+			
+			var moveX = this.speed * deltaX/dist;
+			var moveY = this.speed * deltaY/dist;
+			
 					
+			if (dist >= 40 && dist <= GOBLIN_PATROL_RADIUS){
+				this.attacking = false;
+				this.patrolling = false;
+				this.chasing = true;
+			} 			
+			else if (dist < 40){
+				this.attacking = true;
+				this.patrolling = false;
+				this.chasing = false;
+			} 
+			else {
+				this.attacking = false;
+				this.patrolling = true;
+				this.chasing = false;
+			}	
+		
+			if(this.patrolling){
+				
 			this.cyclesTilDirectionChange--;
-			if(this.cyclesTilDirectionChange <= 0) {
-				if(this.addedCyclesTilDirectionChange <= 0) {
-					this.cyclesTilDirectionChange = GOBLIN_TIME_BETWEEN_CHANGE_DIR;
-					this.changeDirection();
-					this.addedCyclesTilDirectionChange++; 
-				}
-				else if(this.addedCyclesTilDirectionChange == 1) {
-					this.cyclesTilDirectionChange = GOBLIN_TIME_BETWEEN_CHANGE_DIR;
-					this.changeDirection();
-					this.addedCyclesTilDirectionChange++;
-				}
-				else if(this.addedCyclesTilDirectionChange == 2) {
-					this.cyclesTilDirectionChange = GOBLIN_TIME_BETWEEN_CHANGE_DIR;
-					this.changeDirection();
-					this.addedCyclesTilDirectionChange++;
-				}
-				else if(this.addedCyclesTilDirectionChange == 3) {
-					this.cyclesTilDirectionChange = GOBLIN_TIME_BETWEEN_CHANGE_DIR;
-					this.changeDirection();
-					this.addedCyclesTilDirectionChange = 0;
+					
+				if(this.cyclesTilDirectionChange <= 0) {
+					if(this.addedCyclesTilDirectionChange <= 0) {
+						this.cyclesTilDirectionChange = GOBLIN_TIME_BETWEEN_CHANGE_DIR;
+						this.changeDirection();
+						this.addedCyclesTilDirectionChange++; 
+					}
+					else if(this.addedCyclesTilDirectionChange == 1) {
+						this.cyclesTilDirectionChange = GOBLIN_TIME_BETWEEN_CHANGE_DIR;
+						this.changeDirection();
+						this.addedCyclesTilDirectionChange++;
+					}
+					else if(this.addedCyclesTilDirectionChange == 2) {
+						this.cyclesTilDirectionChange = GOBLIN_TIME_BETWEEN_CHANGE_DIR;
+						this.changeDirection();
+						this.addedCyclesTilDirectionChange++;
+					}
+					else if(this.addedCyclesTilDirectionChange == 3) {
+						this.cyclesTilDirectionChange = GOBLIN_TIME_BETWEEN_CHANGE_DIR;
+						this.changeDirection();
+						this.addedCyclesTilDirectionChange = 0;
+					}
 				}
 			}
+			else if(this.chasing){
+				
+				document.getElementById("debugText").innerHTML = "I'm being chased!" + "Dist: " +  dist + " moveX: " + moveX + " MoveY: "+ moveY;		
+				
+				if(dist > 30) {
+					nextX += moveX;
+					nextY += moveY;
+					if(nextY < redWarrior.y){
+						this.walkSouth;
+					}
+					else{
+						this.walkNorth;
+					}
+				} else if ( dist <= 30) {
+					this.chasing = false;
+					this.attacking = true;
+				}
+			}
+			else if(this.attacking){
+				document.getElementById("debugText").innerHTML = "start combat!";
+					this.chasing = false;
+					this.attacking = true;
+			}
+			
 			
 			// which directional image to use
 
 			if(this.walkNorth) {
-				nextY -= goblinMoveSpeed;
 				this.sx = 0;
 				this.sy = 37;
 				goblinDirection = "north";
+				if(this.patrolling){
+					nextY -= goblinMoveSpeed;
+				}
 			}
-			
 			if(this.walkSouth) {
-				nextY += goblinMoveSpeed;
 				this.sx = 0;
 				this.sy = 0;
 				goblinDirection = "south";
+				if(this.patrolling){
+					nextY += goblinMoveSpeed;
+				}
 			}
 			if(this.walkWest) {
-				nextX -= goblinMoveSpeed;
 				this.sx = 0;
 				this.sy = 111;
 				goblinDirection = "west";
+				if(this.patrolling){
+					nextX -= goblinMoveSpeed;
+				}
 			}
 			if(this.walkEast) {
-				nextX += goblinMoveSpeed;
 				this.sx = 0;
 				this.sy = 74;
 				goblinDirection = "east";
+				if(this.patrolling){
+					nextX += goblinMoveSpeed;
+				}
 			}
 			
 			var walkIntoTileIndex = getTileTypeAtPixelCoord(nextX, nextY);
@@ -193,6 +259,9 @@ function goblinClass(goblinName) {
 					this.x = nextX;
 					this.y = nextY;
 					break;
+				case TILE_WATER:
+					this.changeDirection();
+					break	
 				case TILE_WALL:
 					this.changeDirection();
 					break;
@@ -248,7 +317,7 @@ function goblinClass(goblinName) {
 	}
 		
 	this.draw = function() { 
-		
+						
 		if(this.goblinMove) {
 			this.tickCount++;
 		}
