@@ -1,146 +1,211 @@
-var zombieMoveSpeed = 0.5;
-const ZOMBIE_TIME_BETWEEN_CHANGE_DIR = 700;
-const ZOMBIE_COLLISION_RADIUS = 10;
+var archerMoveSpeed = 0.5;
+const ARCHER_TIME_BETWEEN_CHANGE_DIR = 300;
+const ARCHER_PATROL_RADIUS = 200;
 
-function zombieClass(zombieName) {
+function archerClass(archerName) {
 	this.x = 0;
 	this.y = 0;
-	this.speed = 2;
-	this.myZombiePic = zombiePic; // which picture to use
-	this.myName = zombieName;
+	this.speed = 4;
+	this.myArcherPic = archerPic; // which picture to use
+	this.myName = "Untitled archer";
 	this.health = 4;
 	this.alive = true;
 	this.biteReadyTicker = 30;
 	this.biteReady = true;
+	this.myName = archerName;
 	
 	this.cyclesTilDirectionChange = 0;
 	this.addedCyclesTilDirectionChange = 0;
-	this.cyclesOfZombieActive = 0;
-	this.cyclesofZombieResting = Math.random()*400;
-	this.zombieResting = false;
-	this.zombieRestingTime = Math.random()*400;
+	this.cyclesOfArcherActive = 0;
+	this.cyclesofArcherResting = Math.random()*400;
+	this.archerResting = false;
+	this.archerRestingTime = Math.random()*400;
 	
 	this.sx = 50;
 	this.sy = 0;
 	this.tickCount = 0;
 	this.frameIndex = 0;
-	this.width = 25;
+	this.width = 44;
 	this.numberOfFrames = 4;
 	this.height = 50;
 	this.ticksPerFrame = 5;
-	this.zombieMove = true;
+	this.archerMove = true;
+	this.patrolling = true;
+	this.chasing = false;
+	this.attacking = false;
 	this.walkNorth = false;
-	this.walkEast = true;
-	this.walkSouth = false;
+	this.walkEast = false;
+	this.walkSouth = true;
 	this.walkWest = false;
 
-	this.reset = function(whichImage, zombieName) {
-		this.name = zombieName;
-		this.myZombiePic;
+	this.reset = function(whichImage, archerName) {
+		this.name = archerName;
+		this.myArcherPic;
 
 		this.health = 2;
 		
 		for(var eachRow=0;eachRow<ROOM_ROWS;eachRow++) {
 			for(var eachCol=0;eachCol<ROOM_COLS;eachCol++) {
 				var arrayIndex = rowColToArrayIndex(eachCol, eachRow);
-				if(roomGrid[arrayIndex] == TILE_ZOMBIE) {
+				if(roomGrid[arrayIndex] == TILE_ARCHER) {
 					roomGrid[arrayIndex] = TILE_ROAD;
 					this.x = eachCol * TILE_W + TILE_W/2;
 					this.y = eachRow * TILE_H + TILE_H/2;
 					return;
-				} // end of Zombie Start if
+				} // end of Player Start if
 			} //end of col row for
 		} // end of row for
-		console.log("No Zombie Start found!");
-	} // end of zombieRest func
-	
-	this.changeDirection = function() {
-		if(this.walkNorth == true) {
-			this.walkNorth = false;
-			this.walkEast = true;
-		} else if(this.walkWest == true) {
-			this.walkWest = false;
-			this.walkNorth = true;
-		} else if(this.walkEast == true) {
-			this.walkEast = false;
-			this.walkSouth = true;
-		} else if(this.walkSouth == true) {
-			this.walkSouth = false;
-			this.walkWest = true;
-		}	
-	}
-	
+		console.log("No Archer Start found!");
+	} // end of archerRest func
+		
 	this.move = function() {
 		var nextX = this.x; 
 		var nextY = this.y;
 		
+		this.changeDirection = function() {
+			if(this.walkNorth) {
+				this.walkNorth = false;
+				this.walkEast = true;	
+			} else if(this.walkWest) {
+				this.walkWest = false;
+				this.walkNorth = true;
+			} else if(this.walkEast) {
+				this.walkEast = false;
+				this.walkSouth = true;
+			} else if(this.walkSouth) {
+				this.walkSouth = false;
+				this.walkWest = true;
+			}		
+		}
+		
 		if(this.health > 0){
+							
+			var deltaX = redWarrior.x - this.x;
+			var deltaY = redWarrior.y - this.y;
+			var dist = Math.sqrt((deltaX*deltaX) + (deltaY*deltaY));
+			var dist = Math.floor(dist);
+			
+			var moveX = this.speed * deltaX/dist;
+			var moveY = this.speed * deltaY/dist;
+			
 					
+			if (dist >= 40 && dist <= ARCHER_PATROL_RADIUS){
+				this.attacking = false;
+				this.patrolling = false;
+				this.chasing = true;
+			} 			
+			else if (dist < 40){
+				this.attacking = true;
+				this.patrolling = false;
+				this.chasing = false;
+			} 
+			else {
+				this.attacking = false;
+				this.patrolling = true;
+				this.chasing = false;
+			}	
+		
+			if(this.patrolling){
+				
 			this.cyclesTilDirectionChange--;
-			if(this.cyclesTilDirectionChange <= 0) {
-				if(this.addedCyclesTilDirectionChange <= 0) {
-					this.cyclesTilDirectionChange = ZOMBIE_TIME_BETWEEN_CHANGE_DIR;
-					this.changeDirection();
-					this.addedCyclesTilDirectionChange++; 
-				}
-				else if(this.addedCyclesTilDirectionChange == 1) {
-					this.cyclesTilDirectionChange = ZOMBIE_TIME_BETWEEN_CHANGE_DIR;
-					this.changeDirection();
-					this.addedCyclesTilDirectionChange++;
-				}
-				else if(this.addedCyclesTilDirectionChange == 2) {
-					this.cyclesTilDirectionChange = ZOMBIE_TIME_BETWEEN_CHANGE_DIR;
-					this.changeDirection();
-					this.addedCyclesTilDirectionChange++;
-				}
-				else if(this.addedCyclesTilDirectionChange == 3) {
-					this.cyclesTilDirectionChange = ZOMBIE_TIME_BETWEEN_CHANGE_DIR;
-					this.changeDirection();
-					this.addedCyclesTilDirectionChange = 0;
+					
+				if(this.cyclesTilDirectionChange <= 0) {
+					if(this.addedCyclesTilDirectionChange <= 0) {
+						this.cyclesTilDirectionChange = ARCHER_TIME_BETWEEN_CHANGE_DIR;
+						this.changeDirection();
+						this.addedCyclesTilDirectionChange++; 
+					}
+					else if(this.addedCyclesTilDirectionChange == 1) {
+						this.cyclesTilDirectionChange = ARCHER_TIME_BETWEEN_CHANGE_DIR;
+						this.changeDirection();
+						this.addedCyclesTilDirectionChange++;
+					}
+					else if(this.addedCyclesTilDirectionChange == 2) {
+						this.cyclesTilDirectionChange = ARCHER_TIME_BETWEEN_CHANGE_DIR;
+						this.changeDirection();
+						this.addedCyclesTilDirectionChange++;
+					}
+					else if(this.addedCyclesTilDirectionChange == 3) {
+						this.cyclesTilDirectionChange = ARCHER_TIME_BETWEEN_CHANGE_DIR;
+						this.changeDirection();
+						this.addedCyclesTilDirectionChange = 0;
+					}
 				}
 			}
+			else if(this.shooting){
+				
+				document.getElementById("debugText").innerHTML = "I'm being shot at!" + "Dist: " +  dist + " moveX: " + moveX + " MoveY: "+ moveY;		
+				
+				if(dist > 30) {
+					nextX += moveX;
+					nextY += moveY;
+					if(nextY < redWarrior.y){
+						this.walkSouth;
+					}
+					else{
+						this.walkNorth;
+					}
+				} else if ( dist <= 30) {
+					this.shooting = false;
+					this.attacking = true;
+				}
+			}
+			else if(this.attacking){
+				document.getElementById("debugText").innerHTML = "start combat!";
+					playerHurtSound.play();
+					this.shooting = false;
+					this.attacking = true;
+			}
+			
 			
 			// which directional image to use
 
 			if(this.walkNorth) {
-				nextY -= zombieMoveSpeed;
 				this.sx = 0;
 				this.sy = 50;
-				zombieDirection = "north";
+				archerDirection = "north";
+				if(this.patrolling){
+					nextY -= archerMoveSpeed;
+				}
 			}
-			
 			if(this.walkSouth) {
-				nextY += zombieMoveSpeed;
 				this.sx = 0;
 				this.sy = 0;
-				zombieDirection = "south";
+				archerDirection = "south";
+				if(this.patrolling){
+					nextY += archerMoveSpeed;
+				}
 			}
 			if(this.walkWest) {
-				nextX -= zombieMoveSpeed;
 				this.sx = 0;
 				this.sy = 100;
-				zombieDirection = "west";
+				archerDirection = "west";
+				if(this.patrolling){
+					nextX -= archerMoveSpeed;
+				}
 			}
 			if(this.walkEast) {
-				nextX += zombieMoveSpeed;
 				this.sx = 0;
 				this.sy = 150;
-				zombieDirection = "east";
+				archerDirection = "east";
+				if(this.patrolling){
+					nextX += archerMoveSpeed;
+				}
 			}
 			
 			var walkIntoTileIndex = getTileTypeAtPixelCoord(nextX, nextY);
 			var walkIntoTileType = TILE_WALL;
 			
-			if(zombieDirection == "north") {
+			if(archerDirection == "north") {
 				walkIntoTileIndex = getTileTypeAtPixelCoord(nextX,(nextY-25));
 			}
-			if(zombieDirection == "south") {
+			if(archerDirection == "south") {
 				walkIntoTileIndex = getTileTypeAtPixelCoord(nextX,(nextY+25));
 			}
-			if(zombieDirection == "west") {
+			if(archerDirection == "west") {
 				walkIntoTileIndex = getTileTypeAtPixelCoord((nextX-25), nextY);
 			}
-			if(zombieDirection == "east") {
+			if(archerDirection == "east") {
 				walkIntoTileIndex = getTileTypeAtPixelCoord((nextX+25), nextY);
 			}
 
@@ -152,12 +217,12 @@ function zombieClass(zombieName) {
 				case TILE_ROAD:
 					this.x = nextX;
 					this.y = nextY;
-					goblinMoveSpeed = 0.5;
+					archerMoveSpeed = 0.5;
 					break;
 				case TILE_GRASS:
 					this.x = nextX;
 					this.y = nextY;
-					goblinMoveSpeed = 0.3;
+					archerMoveSpeed = 0.3;
 					break;
 				case TILE_TREE:
 					this.changeDirection();
@@ -219,11 +284,11 @@ function zombieClass(zombieName) {
 		}		
 	}
 	
-	this.zombieBite = function() {
+	this.archerBite = function() {
+
 		if(this.biteReady == true){
 			redWarrior.health = redWarrior.health -1;	
-			playerHurtSound.play();
-			document.getElementById("debugText").innerHTML = "Ouch! I've been bite by a zombie for 1 point of damage.";	
+			document.getElementById("debugText").innerHTML = "Ouch! I've been bite by a archer.";	
 			this.biteReady = false;
 		}
 		else if(this.biteReady == false) {	
@@ -235,7 +300,7 @@ function zombieClass(zombieName) {
 		if(this.biteReadyTicker > 0){ 
 			this.biteReadyTicker--;
 		} else if(this.biteReadyTicker <= 0){
-			this.biteReadyTicker = 60; //amount of time between bites
+			this.biteReadyTicker = 30;
 			this.biteReady = true;
 		}
 	}
@@ -243,19 +308,16 @@ function zombieClass(zombieName) {
 	this.isOverlappingPoint = function(testX, testY) {  // textX is redWarrior.x and testY is redWarrior.y
 		
 		//test if redWarrior is inside box of Monster
-		
+				
 		if(this.x < testX && (this.x + this.width) > testX && this.y < testY && (this.y + this.height) > testY){
-			this.zombieBite();
+			this.archerBite();
 		}
-		
 		// add result if true
-		
 	}
 		
 	this.draw = function() { 
-
-			
-		if(this.zombieMove) {
+						
+		if(this.archerMove) {
 			this.tickCount++;
 		}
 		if (this.tickCount > this.ticksPerFrame) {
@@ -268,14 +330,14 @@ function zombieClass(zombieName) {
 		}	
 		if(this.health > 0){
 			this.sx = this.frameIndex * this.width;
-			canvasContext.drawImage(this.myZombiePic, this.sx, this.sy, this.width, this.height, this.x, this.y, this.width, this.height);
+			canvasContext.drawImage(this.myArcherPic, this.sx, this.sy, this.width, this.height, this.x, this.y, this.width, this.height);
 			colorRect(this.x,this.y, 5,5, "red") 
 			colorRect(this.x,this.y+this.height, 5,5, "red")
 			colorRect(this.x+this.width,this.y, 5,5, "red")
 			colorRect(this.x+this.width,this.y+this.height, 5,5, "red")
 		
-		} else {
-				canvasContext.drawImage(deadZombiePic, this.x,this.y);
+		} else {   
+			canvasContext.drawImage(deadArcherPic, this.x,this.y); 
 		}
 		
 		if (this.health <= 0) {
@@ -302,6 +364,6 @@ function zombieClass(zombieName) {
 			} if (this.health >= 2) {
 				colorRect(this.x+10, this.y-this.height+10, 5 , 10, 'green');
 			}
-		}	
+		} 	
 	}
 }

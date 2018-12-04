@@ -11,10 +11,11 @@ function swordClass() {
 	this.yv = 5;
 	this.swordLife = SWORD_LIFE;
 	this.mySwordPic = swordPic;
+	this.damage = 1.0;
 
 	this.reset = function() {
 		this.swordLife = 0;
-		swordAlive = false;
+		swordAlive = true;
 	} 
 	
 	this.move = function() {
@@ -26,7 +27,7 @@ function swordClass() {
 	}
 
 	this.isSwordReadyToSwing = function() {
-	
+		this.damage = 1.0;
         return(this.swordLife <= 0);
     }
 	
@@ -42,7 +43,24 @@ function swordClass() {
 		
 		if(this.swordLife <= 0) {
 			return false;
-		} 
+		}
+
+	this.checkhit = function() {
+		if(this.damage == 1.0) {
+			document.getElementById("debugText").innerHTML = "Successful hit "+ thisEnemy.myName+" for 1 damage point!";
+			this.damage = this.damage - 1;
+			thisEnemy.health = thisEnemy.health - 1;
+			if(thisEnemy == goblin) {
+				goblinHurtSound.play();
+			} else if (thisEnemy == skeleton || thisEnemy == skeleton2) {
+				skeletonHurtSound.play();
+			} else if (thisEnemy == zombie || thisEnemy == zombie2) {
+				zombieHurtSound.play();
+			} else if (thisEnemy == bat1 || thisEnemy == bat2) {
+				batHurtSound.play();
+			}
+		}
+	}		
 		
 		if(direction == "north") {// warrior facing North
 			
@@ -51,10 +69,8 @@ function swordClass() {
 				this.x+25 < (thisEnemy.x + thisEnemy.width) && //within right side
 				this.y-20 > thisEnemy.y && // within top side
 				this.y-20 < (thisEnemy.y + thisEnemy.height)) // within bottom 
-					{ //checking top left of sword
-									// Check Sword then Enemy; inside leftSide side , inside rightSide, inside bottom, and inside top. 
-						document.getElementById("debugText").innerHTML = "Successful hit "+ thisEnemy.myName+"!";
-						thisEnemy.health--;
+					{ 
+						this.checkhit();
 					}
 		} else if(direction == "south") {// warrior facing South
 			
@@ -62,21 +78,17 @@ function swordClass() {
 				this.x + 10 < (thisEnemy.x + thisEnemy.width) && //within right side
 				this.y + 70 > thisEnemy.y && // within top side
 				this.y + 70 < (thisEnemy.y + thisEnemy.height)) // within bottom 
-					{ //checking top left of sword
-									// Check Sword then Enemy; inside leftSide side , inside rightSide, inside bottom, and inside top. 
-						document.getElementById("debugText").innerHTML = "Successful hit "+ thisEnemy.myName+"!";
-						thisEnemy.health--;
+					{ 
+						this.checkhit();
 					}			
 		} else if(direction == "west") {// warrior facing West
 						
 			if(	this.x -30 > thisEnemy.x &&    // within left side
 				this.x -30 < (thisEnemy.x + thisEnemy.width) && //within right side
 				this.y + 25 > thisEnemy.y && // within top side
-				this.y + 25 < (thisEnemy.y + thisEnemy.height)) // within bottom 
-					{ //checking top left of sword
-									// Check Sword then Enemy; inside leftSide side , inside rightSide, inside bottom, and inside top. 
-						document.getElementById("debugText").innerHTML = "Successful hit "+ thisEnemy.myName+"!";
-						thisEnemy.health--;
+				this.y + 25 < (thisEnemy.y + thisEnemy.height)) 
+					{
+						this.checkhit();
 					}			
 		} else if(direction == "east") {// warrior facing East
 						
@@ -84,10 +96,8 @@ function swordClass() {
 				this.x + 60 < (thisEnemy.x + thisEnemy.width) && //within right side
 				this.y + 25 > thisEnemy.y && // within top side
 				this.y + 25 < (thisEnemy.y + thisEnemy.height)) // within bottom 
-					{ //checking top left of sword
-									// Check Sword then Enemy; inside leftSide side , inside rightSide, inside bottom, and inside top. 
-						document.getElementById("debugText").innerHTML = "Successful hit "+ thisEnemy.myName+"!";
-						thisEnemy.health--;
+					{ 
+						this.checkhit();
 					}			    
  		} else {
 			return false;

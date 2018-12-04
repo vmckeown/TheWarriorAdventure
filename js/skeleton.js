@@ -223,8 +223,9 @@ function skeletonClass(skeletonName) {
 	this.skeletonBite = function() {
 
 		if(this.biteReady == true){
-			redWarrior.health = redWarrior.health -1;	
-			document.getElementById("debugText").innerHTML = "Ouch! I've been bite by a skeleton.";	
+			redWarrior.health = redWarrior.health -0.5;	
+			playerHurtSound.play();
+			document.getElementById("debugText").innerHTML = "Ouch! I've been bite by a skeleton for .5 points of damage.";	
 			this.biteReady = false;
 		}
 		else if(this.biteReady == false) {	

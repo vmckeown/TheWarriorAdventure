@@ -9,6 +9,8 @@ var skeleton2 = new skeletonClass("Skeleton Keith");
 var zombie = new zombieClass("Zombie Mike");
 var zombie2 = new zombieClass("Zombie Bob");
 var goblin = new goblinClass("Goblin Vince");
+var archer = new archerClass("Archer Kevin", archerPic);
+var archer2 = new archerClass("Archer Aaron", archerPic);
 
 // Game State //
 
@@ -19,9 +21,11 @@ var menuScreen = true;
 var doorSound = new SoundOverlapsClass("woodDoorOpen");
 var keySound = new SoundOverlapsClass("keys");
 var spikeSound = new SoundOverlapsClass("spikes");
-//var skeletonDeathSound = new SoundOverlapsClass("skeletonDeath");
-//var zombieDeathSound = new SoundOverlapsClass("zombieDeath");
-var goblinDeathSound = new SoundOverlapsClass("goblinDeath");
+var zombieHurtSound = new SoundOverlapsClass("zombiehurt");
+var goblinHurtSound = new SoundOverlapsClass("goblinDeath");
+var skeletonHurtSound = new SoundOverlapsClass("skeletonhurt");
+var batHurtSound = new SoundOverlapsClass("bathurt");
+var playerHurtSound = new SoundOverlapsClass("playerHurt");
 var backgroundMusic = new BackgroundMusicClass();
 
 
@@ -64,6 +68,8 @@ function loadLevel(whichLevel) {
 	bat1.reset(batPic);
 	bat2.reset(batPic);
 	goblin.reset(goblinPic);
+	archer.reset(archerPic);
+	archer2.reset(archerPic);
 }
 
 function updateAll() {
@@ -83,6 +89,8 @@ function moveAll() {
 		zombie.move();
 		zombie2.move();
 		goblin.move();
+		archer.move();
+		archer2.move();
 		if(bat1.health > 0){
 			redWarrior.checkWarriorandSwordCollisionAgainst(bat1);
 		}
@@ -103,6 +111,12 @@ function moveAll() {
 		}
 		if(goblin.health > 0){
 			redWarrior.checkWarriorandSwordCollisionAgainst(goblin);
+		}
+		if(archer.health > 0){
+			redWarrior.checkWarriorandSwordCollisionAgainst(archer);
+		}
+		if(archer2.health > 0){
+			redWarrior.checkWarriorandSwordCollisionAgainst(archer2);
 		}
 
 		cameraFollow();	
@@ -179,6 +193,8 @@ function drawAll() {
 			zombie.draw();
 			zombie2.draw();
 			goblin.draw();
+			archer.draw();
+			archer2.draw();
 			canvasContext.restore();
 			health();
 		}

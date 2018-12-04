@@ -3,6 +3,8 @@ var direction = "south";
 
 function warriorClass() {
 	this.mySword = new swordClass();
+	this.myArrow = new arrowClass(); 
+	this.arrowList = [];
 	this.x = 65;
 	this.centerX = 40;
 	this.y = 100;
@@ -15,8 +17,9 @@ function warriorClass() {
 	this.myWarriorPic = warriorPic; // which picture to use
 	this.name = "Untitled warrior";
 	this.keysHeld = 0;
-	this.goldpieces = 0;
+	this.goldpieces = 10;
 	this.health = 4;
+	this.waitTime = 0;
 	
 	this.sx = 40;
 	this.sy = 0;
@@ -41,19 +44,20 @@ function warriorClass() {
 	this.controlKeyLeft;
 	this.controlKeySword;
 	
-	this.setupInput = function(upKey, rightKey, downKey, leftKey, swordKey) {
+	this.setupInput = function(upKey, rightKey, downKey, leftKey, swordKey, arrowKey) {
 		this.controlKeyUp = upKey;
 		this.controlKeyRight = rightKey;
 		this.controlKeyDown = downKey;
 		this.controlKeyLeft = leftKey;	
 		this.controlKeySword = swordKey;
+		this.controlKeyArrow = arrowKey;
 	}
 
 	this.reset = function(whichImage, warriorName) {
 		this.name = warriorName;
 		this.myWarriorPic;
 		this.yellowKeysHeld = 0;
-		this.greenKeysHeld = 1;
+		this.greenKeysHeld = 0;
 		this.blueKeysHeld = 0;
 		this.redKeysHeld = 0;
 		this.health = 4;
@@ -72,10 +76,11 @@ function warriorClass() {
 		} // end of row for
 		console.log("No Player Start found!");
 		this.mySword.reset();
+		this.myArrow.reset();
 	} // end of warriorRest func
 	
 	this.updateReadout = function() {
-	document.getElementById("inventory").innerHTML = "Yellow Keys: " + this.yellowKeysHeld + "<br>Red Keys: " + this.redKeysHeld + "<br>Green Keys: " + this.greenKeysHeld + "<br>Blue Keys: " + this.blueKeysHeld + "<br>Gold Pieces: " + this.goldpieces;
+	document.getElementById("inventory").innerHTML = "Arrows: " + redWarrior.myArrow.arrowQuantity + "<br>Yellow Keys: " + this.yellowKeysHeld + "<br>Red Keys: " + this.redKeysHeld + "<br>Green Keys: " + this.greenKeysHeld + "<br>Blue Keys: " + this.blueKeysHeld + "<br>Gold Pieces: " + this.goldpieces;
 	}
 
 	this.move = function() {
@@ -107,7 +112,6 @@ function warriorClass() {
 			this.sy = 150;
 		}
 
-		
 		if(this.keyHeld_WalkNorth || this.keyHeld_WalkSouth || this.keyHeld_WalkWest || this.keyHeld_WalkEast) {
 			this.playerMove = true;
 		} else { 
@@ -129,10 +133,7 @@ function warriorClass() {
 		}
 		if(direction == "east") {
 			walkIntoTileIndex = getTileTypeAtPixelCoord(nextX+this.width, nextY+(this.height/2));
-		}
-		
-		
-		
+		}		
 		if(walkIntoTileIndex != undefined) {
 			walkIntoTileType = roomGrid[walkIntoTileIndex];
 		}
@@ -153,8 +154,46 @@ function warriorClass() {
 				nextLevel();
 				break;
 			case TILE_SHOP_A:
-				document.getElementById("debugText").innerHTML = "Shop Keeper:  I'm excited to announce that my shop will open in about 2 weeks.  Please come back!";
-				break;
+				if(this.waitTime == 0){
+					document.getElementById("debugText").innerHTML = "Shop Keeper:  Welcome to my store.";
+					
+					this.waitTime++;
+					
+					var text;
+					var itemsForSale = prompt("1.) 10 Arrows - 10 gp 2.) 1 Heart - 5 gp 3.) 'Nothing at this time'");
+				
+					switch(itemsForSale){
+						case "1": 
+							if(this.goldpieces >= 10){
+								this.goldpieces = this.goldpieces - 10;
+								redWarrior.myArrow.arrowQuantity = redWarrior.myArrow.arrowQuantity + 10;
+								text = "Shop Keeper:  Thank you for purchasing the arrows.  Please come again.";
+								this.updateReadout();
+							}
+							break;
+						case "2":
+							if(this.goldpieces >= 10){
+								this.goldpieces = this.goldpieces - 10;
+								this.health++;
+								text = "Shop Keeper:  Thank you for purchase the heart.  Please come again.";
+								this.updateReadout();
+							}
+							break;
+						case "3":
+							text = "Shop Keeper:  Please come again.  We will have more inventory in the future.";
+							break;
+						default:
+							text = "Shop Keeper:  Please come again.  We will have more inventory in the future.";
+							break;
+					}
+					document.getElementById("debugText").innerHTML = text;				
+				} else {
+					playerMoveSpeed = 3.0;
+					this.x = nextX;
+					this.y = nextY;
+					break;
+				}
+			
 			case TILE_YELLOW_DOOR:
 				if(this.yellowKeysHeld > 0) {
 					this.yellowKeysHeld--; // one less key
@@ -231,10 +270,10 @@ function warriorClass() {
 				if(this.yellowKeysHeld > 0) {
 					this.yellowKeysHeld--; // one less key
 					this.goldpieces = this.goldpieces + 50;
+					redWarrior.myArrow.arrowQuantity = redWarrior.myArrow.arrowQuantity + 5;
 					this.updateReadout();
 					roomGrid[walkIntoTileIndex] = TILE_ROAD;
-					document.getElementById("debugText").innerHTML = "I've used a yellow key and found 50 gold pieces";
-					//doorSound.play();
+					document.getElementById("debugText").innerHTML = "I've used a yellow key and found 50 gold pieces, and 5 arrows";
 				} else {
 					document.getElementById("debugText").innerHTML = "I need a yellow key to open this treasure chest.";
 				}
@@ -271,6 +310,7 @@ function warriorClass() {
 		} // end of switch
 		
 		this.mySword.move();
+		this.myArrow.move();
 	}	
 	
 	this.checkWarriorandSwordCollisionAgainst = function(thisEnemy) {
@@ -280,22 +320,27 @@ function warriorClass() {
 
 
 		if(thisEnemy.isOverlappingPoint(this.centerX,this.centerY)) {
-			if(swordAlive == true) {
-				this.health = (this.health)- 1; // Damage to Health
-					goblinDeath.play();
-				
-			}
+			//empty
 		}
 		
 		if( this.mySword.hitTest(thisEnemy) ) {
-			thisEnemy.health = thisEnemy.health - 1;
-			document.getElementById("debugText").innerHTML = "Enemy Destroyed!";			
+			//empty
+		}
+		
+		if( this.myArrow.hitTest(thisEnemy) ) {
+			//empty
 		}
 	}
 	
 	this.swordSwing = function() {
 		if( this.mySword.isSwordReadyToSwing() ) {	
 			this.mySword.shootFrom(this);
+		}
+	}
+	
+	this.shotArrow = function() {
+		if( this.myArrow.isArrowReadyToShot() ) {	
+			this.myArrow.shootFrom(this);
 		}
 	}
 	
@@ -312,19 +357,22 @@ function warriorClass() {
 			}
 		}
 			
-			this.sx = this.frameIndex * this.width;
-				canvasContext.drawImage(this.myWarriorPic, this.sx, this.sy, this.width, this.height, this.x, this.y, this.width, this.height);
-				colorRect(this.x,this.y, 5,5, "white") 
-				colorRect(this.x,this.y+this.height, 5,5, "white")
-				colorRect(this.x+this.width,this.y, 5,5, "white")
-				colorRect(this.x+this.width,this.y+this.height, 5,5, "white")
+		this.sx = this.frameIndex * this.width;
+		
+		canvasContext.drawImage(this.myWarriorPic, this.sx, this.sy, this.width, this.height, this.x, this.y, this.width, this.height);
+		colorRect(this.x,this.y, 5,5, "white") 
+		colorRect(this.x,this.y+this.height, 5,5, "white")
+		colorRect(this.x+this.width,this.y, 5,5, "white")
+		colorRect(this.x+this.width,this.y+this.height, 5,5, "white")
 				
-				colorRect(this.centerX,this.centerY, 5, 5, 'white')
-			this.mySword.draw();
-
+			colorRect(this.centerX,this.centerY, 5, 5, 'white')
+		
+		this.mySword.draw();
+			
+		this.myArrow.draw();
+	
 		}
 	}
-
 	
 function instantCamFollow() {
     camPanX = worldGrid - canvas.width/2;

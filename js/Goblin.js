@@ -85,8 +85,6 @@ function goblinClass(goblinName) {
 			var dist = Math.sqrt((deltaX*deltaX) + (deltaY*deltaY));
 			var dist = Math.floor(dist);
 			
-			document.getElementById("debugText").innerHTML = "Dist: " + dist;	
-			
 			var moveX = this.speed * deltaX/dist;
 			var moveY = this.speed * deltaY/dist;
 			
@@ -136,7 +134,7 @@ function goblinClass(goblinName) {
 			}
 			else if(this.chasing){
 				
-				document.getElementById("debugText").innerHTML = "I'm being chased!" + "Dist: " +  dist + " moveX: " + moveX + " MoveY: "+ moveY;		
+				document.getElementById("debugText").innerHTML = "I'm being chased!";		
 				
 				if(dist > 30) {
 					nextX += moveX;
@@ -154,6 +152,7 @@ function goblinClass(goblinName) {
 			}
 			else if(this.attacking){
 				document.getElementById("debugText").innerHTML = "start combat!";
+					playerHurtSound.play();
 					this.chasing = false;
 					this.attacking = true;
 			}

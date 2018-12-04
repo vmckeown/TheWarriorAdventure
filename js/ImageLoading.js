@@ -15,6 +15,9 @@ var deadBatPic = document.createElement("img");
 var goblinPic = document.createElement("img");
 var deadGoblinPic = document.createElement("img");
 
+var archerPic = document.createElement("img");
+var deadArcherPic = document.createElement("img");
+
 var worldPics = [];
 
 var picsToLoad = 0;
@@ -82,6 +85,8 @@ function loadImages() {
 			{varName: zombiePic, theFile: "zombie.png"},
 			{varName: goblinPic, theFile: "goblin.png"},
 			{varName: deadGoblinPic, theFile: "deadgoblin.png"},
+			{varName: archerPic, theFile: "archer.png"},
+			{varName: deadArcherPic, theFile: "deadgoblin.png"},
 			{varName: titlepagePic, theFile: "background.png"}
 			
 		];
