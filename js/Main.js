@@ -15,6 +15,7 @@ var archer2 = new archerClass("Archer Aaron", archerPic);
 // Game State //
 
 var menuScreen = true;
+var isInShop = false;
 
 // Sound //
 
@@ -80,6 +81,8 @@ function updateAll() {
 function moveAll() {
 	if(menuScreen){
 		// no movement
+	} else if (isInShop){
+		
 	} else { 
 		redWarrior.move();
 		bat1.move();
@@ -180,7 +183,12 @@ function drawAll() {
 			colorText("Move Right - Right Arrow", 170, 350, "white");
 			colorText("Move Up - Up Arrow", 170, 375, "white");
 			colorText("Sword Attack - Space bar", 170, 400, "white");
-				} else {
+		} else if (isInShop){ 
+			drawShop();
+			
+				
+		
+		} else {
 			canvasContext.save();
 			canvasContext.translate(-camPanX,-camPanY);
 			drawRoom();

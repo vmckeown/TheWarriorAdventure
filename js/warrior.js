@@ -20,7 +20,7 @@ function warriorClass() {
 	this.goldpieces = 10;
 	this.health = 4;
 	this.waitTime = 0;
-	
+	this.previousTileType = -1;
 	this.sx = 40;
 	this.sy = 0;
 	this.tickCount = 0;
@@ -53,6 +53,14 @@ function warriorClass() {
 		this.controlKeyArrow = arrowKey;
 	}
 
+	this.releaseKeys = function(){
+		this.keyHeld_WalkNorth = false;
+		this.keyHeld_WalkSouth = false;
+		this.keyHeld_WalkWest = false;
+		this.keyHeld_WalkEast = false;
+		this.keyHeld_Sword = false;
+	}
+	
 	this.reset = function(whichImage, warriorName) {
 		this.name = warriorName;
 		this.myWarriorPic;
@@ -154,46 +162,11 @@ function warriorClass() {
 				nextLevel();
 				break;
 			case TILE_SHOP_A:
-				if(this.waitTime == 0){
-					document.getElementById("debugText").innerHTML = "Shop Keeper:  Welcome to my store.";
-					
-					this.waitTime++;
-					
-					var text;
-					var itemsForSale = prompt("1.) 10 Arrows - 10 gp 2.) 1 Heart - 5 gp 3.) 'Nothing at this time'");
-				
-					switch(itemsForSale){
-						case "1": 
-							if(this.goldpieces >= 10){
-								this.goldpieces = this.goldpieces - 10;
-								redWarrior.myArrow.arrowQuantity = redWarrior.myArrow.arrowQuantity + 10;
-								text = "Shop Keeper:  Thank you for purchasing the arrows.  Please come again.";
-								this.updateReadout();
-							}
-							break;
-						case "2":
-							if(this.goldpieces >= 10){
-								this.goldpieces = this.goldpieces - 10;
-								this.health++;
-								text = "Shop Keeper:  Thank you for purchase the heart.  Please come again.";
-								this.updateReadout();
-							}
-							break;
-						case "3":
-							text = "Shop Keeper:  Please come again.  We will have more inventory in the future.";
-							break;
-						default:
-							text = "Shop Keeper:  Please come again.  We will have more inventory in the future.";
-							break;
-					}
-					document.getElementById("debugText").innerHTML = text;				
-				} else {
-					playerMoveSpeed = 3.0;
-					this.x = nextX;
-					this.y = nextY;
-					break;
+				if(walkIntoTileType != this.previousTileType){
+					this.releaseKeys();
+					isInShop = true;
 				}
-			
+			break;
 			case TILE_YELLOW_DOOR:
 				if(this.yellowKeysHeld > 0) {
 					this.yellowKeysHeld--; // one less key
@@ -309,6 +282,7 @@ function warriorClass() {
 			
 		} // end of switch
 		
+		this.previousTileType = walkIntoTileType;
 		this.mySword.move();
 		this.myArrow.move();
 	}	

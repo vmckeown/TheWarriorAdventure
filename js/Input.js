@@ -87,12 +87,19 @@ function keySet(keyEvent, redWarrior, setTo) {
 }
 
 function keyPressed(evt) {
-	keySet(evt, redWarrior, true);
-	if(evt.keyCode == redWarrior.controlKeySword) {
-		redWarrior.swordSwing(); 
-	}
-	else if(evt.keyCode == redWarrior.controlKeyArrow) {
-		redWarrior.shotArrow(); 
+	if(isInShop){
+		console.log(evt.keyCode);
+		shopInput(evt.keyCode);
+		
+	} else {
+		
+		keySet(evt, redWarrior, true);
+		if(evt.keyCode == redWarrior.controlKeySword) {
+			redWarrior.swordSwing(); 
+		}
+		else if(evt.keyCode == redWarrior.controlKeyArrow) {
+			redWarrior.shotArrow(); 
+		}
 	}
     evt.preventDefault(); // without this, arrow keys scroll the browser!
 }
