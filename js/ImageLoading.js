@@ -1,4 +1,5 @@
 var titlepagePic = document.createElement("img");
+var storeFrontPic = document.createElement("img");
 
 var warriorPic = document.createElement("img");
 var swordPic = document.createElement("img");
@@ -44,7 +45,7 @@ function loadImages() {
 	
 		var imageList = [
 			{tileType: TILE_ROAD,  theFile: "worldRoad.png"},
-			{tileType: TILE_KEY,  theFile: "world_key.png"},
+	//		{tileType: TILE_KEY,  theFile: "world_key.png"},
 			{tileType: TILE_YELLOW_KEY,  theFile: "yellowkey.png"},
 			{tileType: TILE_GREEN_KEY,  theFile: "greenkey.png"},
 			{tileType: TILE_BLUE_KEY,  theFile: "bluekey.png"},
@@ -87,6 +88,7 @@ function loadImages() {
 			{varName: deadGoblinPic, theFile: "deadgoblin.png"},
 			{varName: archerPic, theFile: "archer.png"},
 			{varName: deadArcherPic, theFile: "deadgoblin.png"},
+			{varName: storeFrontPic, theFile: "storefront.jpg"},
 			{varName: titlepagePic, theFile: "background.png"}
 			
 		];

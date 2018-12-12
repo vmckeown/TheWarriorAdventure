@@ -1,9 +1,10 @@
 function drawShop(){
-	canvasContext.drawImage(titlepagePic, 0,0);  // replace with inventory background
-	colorText("Please let me know if you would like any of our items in stock.", 200, 100, "white");
-	colorText("1.) 10 Arrows 	- 	10 gp", 250, 150, "white");
-	colorText("2.)  1 Heart 	- 	 5 gp", 250, 200, "white");
-	colorText("3.) 'Nothing at this time'", 250, 250, "white");
+	canvasContext.drawImage(storeFrontPic, 0,0);  // replace with inventory background
+	colorText("Please let me know if you would like any of our" , 25, 50, "white");
+	colorText("items in stock." , 25, 65, "white");
+	colorText("1.) 10 Arrows 	- 	10 gp", 50, 100, "white");
+	colorText("2.)  1 Heart 	- 	 5 gp", 50, 120, "white");
+	colorText("3.) 'Nothing at this time'", 50, 140, "white");
 }
 
 function shopInput(whichKeyCode){

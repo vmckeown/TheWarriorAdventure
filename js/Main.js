@@ -27,7 +27,7 @@ var goblinHurtSound = new SoundOverlapsClass("goblinDeath");
 var skeletonHurtSound = new SoundOverlapsClass("skeletonhurt");
 var batHurtSound = new SoundOverlapsClass("bathurt");
 var playerHurtSound = new SoundOverlapsClass("playerHurt");
-var backgroundMusic = new BackgroundMusicClass();
+var backgroundMusic = new BackgroundMusicClass("background");
 
 
 window.onload = function() {
