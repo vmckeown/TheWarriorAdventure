@@ -15,6 +15,7 @@ function arrowClass() {
 	this.damage = 0.5;
 	this.arrowLife = ARROW_LIFE;
 	this.arrowQuantity = 5;
+	this.direction;
 	//this.myArrowPic = arrowPic;
 
 	this.reset = function() {
@@ -28,25 +29,37 @@ function arrowClass() {
 			this.arrowLife--;
 		}
 		
+		if(this.arrowLife == 1){
 		if(direction == "north") {
+				this.direction = "north";
+			} else if(direction == "south") {
+				this.direction = "south";
+			} else if(direction == "west") {
+				this.direction = "west";
+			} else if(direction == "east") {
+				this.direction = "east";
+			}
+		}
+
+		if(this.direction == "north") {
 			this.xv = 0;
 			this.yv = -this.speed;
 			this.length = 20;
 			this.width = 4;
 		}
-		else if(direction == "south") {
+		else if(this.direction == "south") {
 			this.xv = 0;
 			this.yv = this.speed;
 			this.length = 20;
 			this.width = 4;
 		}
-		else if(direction == "west") {
+		else if(this.direction == "west") {
 			this.xv = -this.speed;
 			this.yv = 0;
 			this.length = 4;
 			this.width = 20;
 		}
-		else if(direction == "east") {
+		else if(this.direction == "east") {
 			this.xv = this.speed;
 			this.yv = 0;
 			this.length = 4;
