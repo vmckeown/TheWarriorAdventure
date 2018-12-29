@@ -45,7 +45,6 @@ function loadImages() {
 	
 		var imageList = [
 			{tileType: TILE_ROAD,  theFile: "worldRoad.png"},
-	//		{tileType: TILE_KEY,  theFile: "world_key.png"},
 			{tileType: TILE_YELLOW_KEY,  theFile: "yellowkey.png"},
 			{tileType: TILE_GREEN_KEY,  theFile: "greenkey.png"},
 			{tileType: TILE_BLUE_KEY,  theFile: "bluekey.png"},
@@ -74,7 +73,10 @@ function loadImages() {
 			{tileType: TILE_SHOPKEEPER,  theFile: "shopkeeper.png"},
 			{tileType: TILE_TREE,  theFile: "tree.png"},
 			{tileType: TILE_GRAVE,  theFile: "grave.png"},
+			{tileType: TILE_FRESH_GRAVE,  theFile: "freshgrave.png"},
 			{tileType: TILE_CABINET,  theFile: "cabinet.png"},
+			{tileType: TILE_GRAVE_YARD_PORTAL,  theFile: "worldRoad.png"},
+			{tileType: TILE_HOME_VILLAGE_PORTAL,  theFile: "worldRoad.png"},
 	
 			{varName: warriorPic, theFile: "warrior.png"},
 			{varName: swordPic, theFile: "sword.png"},

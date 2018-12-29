@@ -9,8 +9,8 @@ function warriorClass() {
 	this.centerX = 40;
 	this.y = 100;
 	this.centerY = 80;
-	this.head = this.y + 25;
-	this.feet = this.y - 25;
+	this.head = this.y - 25;
+	this.feet = this.y + 25;
 	this.leftArm = this.x + 25;
 	this.rightArm = this.x - 25;
 	this.speed = 0;
@@ -157,6 +157,13 @@ function warriorClass() {
 				this.x = nextX;
 				this.y = nextY;
 				break;	
+			case TILE_GRAVE_YARD_PORTAL:
+				loadLevel(graveYard);
+				break;	
+				
+			case TILE_HOME_VILLAGE_PORTAL:
+				loadLevel(levelOne);
+				break;	
 			case TILE_FINISH:
 				console.log(this.name + " WINS!");
 				nextLevel();
@@ -166,7 +173,7 @@ function warriorClass() {
 					this.releaseKeys();
 					isInShop = true;
 				}
-			break;
+				break;
 			case TILE_YELLOW_DOOR:
 				if(this.yellowKeysHeld > 0) {
 					this.yellowKeysHeld--; // one less key
@@ -253,6 +260,11 @@ function warriorClass() {
 				break;
 			case TILE_GRAVE:
 					document.getElementById("debugText").innerHTML = "Too many good people have died from the Skeleton King and his army of the dead.";
+					colorText("Too many good people have died from the Skeleton King and his army of the dead.", this.x, this.y - 50, "black");
+				break;
+			case TILE_FRESH_GRAVE:
+					document.getElementById("debugText").innerHTML = "I need to avenge my friend.  The Skeleton King and his army of the dead must be destroyed!.";
+					colorText("I need to avenge my friend.  The Skeleton King and his army of the dead must be destroyed!.", this.x, this.y - 50,"black");
 				break;
 			case TILE_BED:
 					document.getElementById("debugText").innerHTML = "I am not tired.";
@@ -264,7 +276,7 @@ function warriorClass() {
 				var i = 1;
 				this.x = nextX;
 				this.y = nextY;
-				this.health = this.health - .5; // Damage to Health
+				this.health = this.health - 0.5; // Damage to Health
 				this.updateReadout();
 				roomGrid[walkIntoTileIndex] = TILE_SPIKES_BLOODY;
 				spikeSound.play();
@@ -291,7 +303,6 @@ function warriorClass() {
 		
 		this.centerX = this.x + this.width/2;
 		this.centerY = this.y + this.height/2;
-
 
 		if(thisEnemy.isOverlappingPoint(this.centerX,this.centerY)) {
 			//empty
@@ -334,12 +345,12 @@ function warriorClass() {
 		this.sx = this.frameIndex * this.width;
 		
 		canvasContext.drawImage(this.myWarriorPic, this.sx, this.sy, this.width, this.height, this.x, this.y, this.width, this.height);
-		colorRect(this.x,this.y, 5,5, "white") 
+/*		colorRect(this.x,this.y, 5,5, "white") 
 		colorRect(this.x,this.y+this.height, 5,5, "white")
 		colorRect(this.x+this.width,this.y, 5,5, "white")
 		colorRect(this.x+this.width,this.y+this.height, 5,5, "white")
 				
-			colorRect(this.centerX,this.centerY, 5, 5, 'white')
+		colorRect(this.centerX,this.centerY, 5, 5, 'white') */
 		
 		this.mySword.draw();
 			
@@ -349,11 +360,11 @@ function warriorClass() {
 	}
 	
 function instantCamFollow() {
-    camPanX = worldGrid - canvas.width/2;
+    camPanX = redWarrior.x - canvas.width/2;
     camPanY = redWarrior.y - canvas.height/2;
 }
 
- function cameraFollow() {
+function cameraFollow() {
     var cameraFocusCenterX = camPanX + canvas.width/2;
     var cameraFocusCenterY = camPanY + canvas.height/2;
 

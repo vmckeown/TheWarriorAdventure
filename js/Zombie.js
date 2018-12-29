@@ -269,10 +269,10 @@ function zombieClass(zombieName) {
 		if(this.health > 0){
 			this.sx = this.frameIndex * this.width;
 			canvasContext.drawImage(this.myZombiePic, this.sx, this.sy, this.width, this.height, this.x, this.y, this.width, this.height);
-			colorRect(this.x,this.y, 5,5, "red") 
+/*			colorRect(this.x,this.y, 5,5, "red") 
 			colorRect(this.x,this.y+this.height, 5,5, "red")
 			colorRect(this.x+this.width,this.y, 5,5, "red")
-			colorRect(this.x+this.width,this.y+this.height, 5,5, "red")
+			colorRect(this.x+this.width,this.y+this.height, 5,5, "red") */
 		
 		} else {
 				canvasContext.drawImage(deadZombiePic, this.x,this.y);
